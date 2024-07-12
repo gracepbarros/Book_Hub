@@ -1,0 +1,16 @@
+:root {
+  --beige: rgb(206, 191, 148);
+  --orange: rgb(252, 113, 56);
+  --turquoise: rgb(163, 231, 216);
+  --brown: rgb(107, 92, 73);
+  --white: #ffffff;
+  --lightyellow: #ffb300;
+  --font-size: 1.3rem;
+  --mono: "Oxygen mono", monospace;
+  --sans: Oxygen, sans-serif;
+}
+/* Cores principais
+Bege: rgba(206, 191, 148, 1)
+Laranja: rgba(252, 113, 56, 1)
+Verde/Agua: rgba(163, 231, 216, 1)
+Marrom: rgba(107, 92, 73, 1) */
