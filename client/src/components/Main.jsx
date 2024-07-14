@@ -1,4 +1,5 @@
 const Main = () => {
+  
   return (
     <main>
       <h2>Explore more titles</h2>
