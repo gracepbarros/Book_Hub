@@ -1,0 +1,134 @@
+@import url("https://fonts.googleapis.com/css2?family=Irish+Grover&display=swap");
+
+body {
+  margin: 0;
+}
+
+.brown {
+  color: var(--brown);
+}
+
+.beige {
+  color: var(--beige);
+}
+
+.turquoise {
+  color: var(--turquoise);
+}
+
+.orange {
+  color: var(--orange);
+}
+
+.container {
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+.left-icons span,
+.right-icons span {
+  padding: 0.2rem;
+}
+
+h1 {
+  font-family: "Irish Grover", system-ui;
+  font-weight: 400;
+  font-size: 5rem;
+  -webkit-text-stroke-width: 3px;
+  -webkit-text-stroke-color: var(--beige);
+  margin: 0;
+}
+
+.gradient {
+  height: 1rem;
+  display: flex;
+}
+
+.gradient * {
+  width: 25%;
+}
+
+header {
+  display: flex;
+}
+
+h3 {
+  padding-top: 8rem;
+  padding-bottom: 4rem;
+  font-family: "Irish Grover", system-ui;
+  font-size: 2rem;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+}
+
+.books {
+  height: 40rem;
+  width: 25%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.unread {
+  background-color: var(--beige);
+}
+
+.reading {
+  background-color: var(--turquoise);
+}
+
+.read {
+  background-color: var(--orange);
+}
+
+.abandoned {
+  background-color: var(--brown);
+}
+
+img {
+  background: transparent; /* Ensure background is transparent */
+  border: none; /* Remove any borders */
+  display: block; /* Optional: removes bottom space in some cases */
+}
+
+main {
+  margin-top: 1rem;
+  display: flex;
+  justify-content: right;
+  gap: 3rem;
+  align-items: center;
+}
+
+h2 {
+  font-family: "Irish Grover", system-ui;
+  font-weight: 400;
+  font-size: 2rem;
+  -webkit-text-stroke-width: 1px;
+  -webkit-text-stroke-color: var(--beige);
+  margin: 0;
+}
+
+.search {
+  display: flex;
+  align-items: center;
+}
+
+input {
+  border-radius: 5px;
+}
+
+@media (min-width: 1200px) {
+  .container {
+    width: 60%;
+  }
+}

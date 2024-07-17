@@ -2,7 +2,7 @@ const Nav = () => {
   return (
     <nav>
       <div className="left-icons">
-        <span className="material-symbols-outlined">favorite</span>
+        <span className="material-symbols-outlined red">favorite</span>
         <span className="material-symbols-outlined">search</span>
       </div>
       <h1>Book Hub</h1>
