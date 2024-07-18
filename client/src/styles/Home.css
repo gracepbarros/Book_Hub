@@ -1,11 +1,17 @@
 @import url("https://fonts.googleapis.com/css2?family=Irish+Grover&display=swap");
 
-body {
+html, body {
+  height: 100%;
   margin: 0;
+}
+
+#root{
+  height: 100%;
 }
 
 .container {
   width: 100%;
+  height: 100%;
   margin-left: auto;
   margin-right: auto;
 }
@@ -27,7 +33,7 @@ nav {
 h1 {
   font-family: "Irish Grover", system-ui;
   font-weight: 400;
-  font-size: 5rem;
+  font-size: 4rem;
   -webkit-text-stroke-width: 3px;
   -webkit-text-stroke-color: var(--beige);
   margin: 0;
@@ -88,8 +94,8 @@ input {
   border-radius: 5px;
 }
 
-@media (min-width: 840px) {
+/* @media (min-width: 840px) {
   .container {
     width: 60%;
   }
-}
+} */

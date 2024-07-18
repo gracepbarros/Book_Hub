@@ -9,6 +9,11 @@
   --mono: "Oxygen mono", monospace;
   --sans: Oxygen, sans-serif;
 }
+
+a {
+  color: black;
+  text-decoration: none;
+}
 /* Cores principais
 Bege: rgba(206, 191, 148, 1)
 Laranja: rgba(252, 113, 56, 1)

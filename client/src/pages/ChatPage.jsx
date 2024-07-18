@@ -1,23 +1,17 @@
 import "../styles/Home.css";
+import "../styles/Chat.css";
 import Nav from "../components/Nav";
-import Gradient from "../components/Gradient";
-import { useEffect } from "react";
+import Gradient from "../components/Gradient"
+import Chat from "../components/Chat";
+
+
 
 function ChatPage() {
-  useEffect(() => {
-    fetch("http://localhost:3000/api")
-      .then((response) => response.json())
-      .then((data) => console.log(data))
-      .catch((error) =>
-        console.error("Failed to load data from the api: ", error)
-      );
-  }, []);
-
   return (
     <div className="container">
       <Nav />
       <Gradient />
-      {/*Chat goes here */}
+      <Chat/>
       <Gradient />
     </div>
   );

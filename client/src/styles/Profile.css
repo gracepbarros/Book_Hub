@@ -39,7 +39,7 @@ nav {
 h1 {
   font-family: "Irish Grover", system-ui;
   font-weight: 400;
-  font-size: 5rem;
+  font-size: 4rem;
   -webkit-text-stroke-width: 3px;
   -webkit-text-stroke-color: var(--beige);
   margin: 0;
@@ -127,8 +127,8 @@ input {
   border-radius: 5px;
 }
 
-@media (min-width: 1200px) {
+/* @media (min-width: 1200px) {
   .container {
     width: 60%;
   }
-}
+} */
