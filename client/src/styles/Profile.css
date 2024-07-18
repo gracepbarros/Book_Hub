@@ -4,6 +4,22 @@ body {
   margin: 0;
 }
 
+.brown {
+  color: var(--brown);
+}
+
+.beige {
+  color: var(--beige);
+}
+
+.turquoise {
+  color: var(--turquoise);
+}
+
+.orange {
+  color: var(--orange);
+}
+
 .container {
   width: 100%;
   margin-left: auto;
@@ -23,7 +39,7 @@ nav {
 h1 {
   font-family: "Irish Grover", system-ui;
   font-weight: 400;
-  font-size: 5rem;
+  font-size: 4rem;
   -webkit-text-stroke-width: 3px;
   -webkit-text-stroke-color: var(--beige);
   margin: 0;
@@ -38,8 +54,29 @@ h1 {
   width: 25%;
 }
 
+header {
+  display: flex;
+}
+
+h3 {
+  padding-top: 8rem;
+  padding-bottom: 4rem;
+  font-family: "Irish Grover", system-ui;
+  font-size: 2rem;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+}
+
 .books {
-  height: 5rem;
+  height: 40rem;
+  width: 25%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .unread {
@@ -56,6 +93,12 @@ h1 {
 
 .abandoned {
   background-color: var(--brown);
+}
+
+img {
+  background: transparent; /* Ensure background is transparent */
+  border: none; /* Remove any borders */
+  display: block; /* Optional: removes bottom space in some cases */
 }
 
 main {
@@ -84,8 +127,8 @@ input {
   border-radius: 5px;
 }
 
-@media (min-width: 840px) {
+/* @media (min-width: 1200px) {
   .container {
     width: 60%;
   }
-}
+} */
