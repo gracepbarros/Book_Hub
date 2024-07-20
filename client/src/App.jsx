@@ -1,28 +1,18 @@
-import "./App.css";
-import Nav from "./components/Nav";
-import Header from "./components/Header";
-import Gradient from "./components/Gradient";
-import Main from "./components/Main";
-import { useEffect } from "react";
-
+import React from "react";
+import Home from "./pages/Home.jsx";
+import ProfilePage from "./pages/ProfilePage.jsx";
+import ChatPage from "./pages/ChatPage.jsx";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 function App() {
-  useEffect(() => {
-    fetch('http://localhost:3000/api')
-    .then(response => response.json())
-    .then(data => console.log(data))
-    .catch(error => console.error("Failed to load data from the api: ", error));
-  }, []);
-
-  
   return (
-    <div className="container">
-      <Nav />
-      <Gradient />
-      <Header />
-      <Main />
-      <Gradient />
-    </div>
+    <Router>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/profile" element={<ProfilePage />} />
+          <Route path="/chat" element={<ChatPage />} />
+        </Routes>
+    </Router>
   );
 }
 
