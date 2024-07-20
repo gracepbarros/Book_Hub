@@ -1,7 +1,6 @@
 {
   "name": "backend",
   "version": "1.0.0",
-  "description": "",
   "main": "server.js",
   "type": "module",
   "scripts": {
@@ -17,6 +16,12 @@
     "path": "^0.12.7"
   },
   "devDependencies": {
-    "nodemon": "^3.1.4"
-  }
+    "@types/node": "^20.14.11",
+    "nodemon": "^3.1.4",
+    "prisma": "^5.17.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.5.3"
+  },
+  "keywords": [],
+  "description": ""
 }
