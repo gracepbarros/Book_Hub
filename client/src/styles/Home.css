@@ -1,11 +1,12 @@
 @import url("https://fonts.googleapis.com/css2?family=Irish+Grover&display=swap");
 
-html, body {
+html,
+body {
   height: 100%;
   margin: 0;
 }
 
-#root{
+#root {
   height: 100%;
 }
 
@@ -20,16 +21,6 @@ html, body {
   color: red;
 }
 
-nav {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-end;
-}
-.left-icons span,
-.right-icons span {
-  padding: 0.2rem;
-}
-
 h1 {
   font-family: "Irish Grover", system-ui;
   font-weight: 400;
@@ -39,17 +30,8 @@ h1 {
   margin: 0;
 }
 
-.gradient {
-  height: 1rem;
-  display: flex;
-}
-
-.gradient * {
-  width: 25%;
-}
-
 .books {
-  height: 5rem;
+  height: 10rem;
 }
 
 .unread {
@@ -66,14 +48,6 @@ h1 {
 
 .abandoned {
   background-color: var(--brown);
-}
-
-main {
-  margin-top: 1rem;
-  display: flex;
-  justify-content: right;
-  gap: 3rem;
-  align-items: center;
 }
 
 h2 {
@@ -94,8 +68,20 @@ input {
   border-radius: 5px;
 }
 
-/* @media (min-width: 840px) {
-  .container {
-    width: 60%;
+.home-presentation {
+  position: absolute;
+  width: 80%;
+  height: 10rem;
+  top: 30%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+}
+
+@media (min-width: 1200px) {
+  .home-presentation {
+    width: 50%;
+    margin-left: auto;
+    margin-right: auto;
   }
-} */
+}

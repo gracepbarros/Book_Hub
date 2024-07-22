@@ -1,0 +1,25 @@
+.books-container {
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  position: relative;
+}
+.books-row {
+  min-height: 12rem;
+}
+
+.books-unread {
+  background-color: var(--beige);
+}
+
+.books-reading {
+  background-color: var(--turquoise);
+}
+
+.books-read {
+  background-color: var(--orange);
+}
+
+.books-abandoned {
+  background-color: var(--brown);
+}

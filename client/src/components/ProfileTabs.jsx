@@ -29,43 +29,43 @@
 
 import profileImage from "../images/avatar.png";
 
-const Tabs = () => {
+const ProfileTabs = () => {
   return (
-    <header>
-      <div className="books abandoned">
-        <h3 className="beige">My picture</h3>
-        <div className="row turquoise">
+    <header className="profile-header">
+      <div className="profile-books profile-abandoned">
+        <h3 className="profile-h3 profile-beige">My picture</h3>
+        <div className="profile-row profile-turquoise">
           <span class="material-symbols-outlined">delete</span>
           <p>Delete picture</p>
         </div>
-        <div className="row turquoise">
+        <div className="profile-row profile-turquoise">
           <span class="material-symbols-outlined">upload</span>
           <p>Upload Picture</p>
         </div>
         <img src={profileImage} width={200} />
       </div>
-      <div className="books unread">
-        <h3 className="turquoise">My info</h3>
-        <div className="row">
+      <div className="profile-books profile-unread">
+        <h3 className="profile-h3 profile-turquoise">My info</h3>
+        <div className="profile-row">
           <span class="material-symbols-outlined">alternate_email</span>
           <p>Your_username</p>
         </div>
-        <div className="row">
+        <div className="profile-row">
           <span class="material-symbols-outlined">edit_square</span>
           <p>Edit Username</p>
         </div>
-        <div className="row">
+        <div className="profile-row">
           <span class="material-symbols-outlined">key</span>
           <p>Edit Password</p>
         </div>
       </div>
-      <div className="books reading orange">
-        <h3 className="row">
+      <div className="profile-books profile-reading profile-orange">
+        <h3 className="profile-h3 profile-row">
           <span class="material-symbols-outlined">favorite</span> Books
         </h3>
       </div>
-      <div className="books read brown">
-        <h3 className="row">
+      <div className="profile-books profile-read profile-brown">
+        <h3 className="profile-h3 profile-row">
           <span class="material-symbols-outlined">error</span> Alerts
         </h3>
       </div>
@@ -73,4 +73,4 @@ const Tabs = () => {
   );
 };
 
-export default Tabs;
+export default ProfileTabs;
