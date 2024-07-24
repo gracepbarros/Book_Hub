@@ -29,8 +29,8 @@ const Chat = () => {
   let userId = 456;
 
   return (
-    <div className="chat-chatBox">
-      <div className="chat-messagesBox">
+    <div className="flex flex-col mx-auto w-[100%] h-[80vh] chatlayout">
+      <div className="w-full h-[80vh]">
         {messages.map((message) => {
           return (
             <div
@@ -44,8 +44,12 @@ const Chat = () => {
           );
         })}
       </div>
-      <div className="chat-inputBox">
-        <textarea name="message" rows="3"></textarea>
+      <div className="flex w-full h-[10vh] mb-2">
+        <textarea
+          className="w-[90%] border-2 border-orange-500 rounded-lg"
+          name="message"
+          rows="3"
+        ></textarea>
         <div className="chat-sendBtn">
           <span class="material-symbols-outlined">send</span>
         </div>

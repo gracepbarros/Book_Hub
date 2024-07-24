@@ -1,5 +1,5 @@
-import "../styles/Books.css";
-import "../styles/Main.css";
+// import "../styles/Books.css";
+// import "../styles/Main.css";
 import Nav from "../components/Nav";
 import Gradient from "../components/Gradient";
 import Books from "../components/Books";
@@ -7,7 +7,7 @@ import Main from "../components/Main";
 
 function BooksPage() {
   return (
-    <div className="container">
+    <div>
       <Nav />
       <Gradient />
       <Books />

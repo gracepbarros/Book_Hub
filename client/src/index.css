@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css2?family=Irish+Grover&display=swap");
+
 :root {
   --beige: rgb(206, 191, 148);
   --orange: rgb(252, 113, 56);
@@ -10,12 +12,116 @@
   --sans: Oxygen, sans-serif;
 }
 
-a {
-  color: black;
-  text-decoration: none;
+.irishgrover {
+  font-family: "Irish Grover", system-ui;
 }
-/* Cores principais
-Bege: rgba(206, 191, 148, 1)
-Laranja: rgba(252, 113, 56, 1)
-Verde/Agua: rgba(163, 231, 216, 1)
-Marrom: rgba(107, 92, 73, 1) */
+
+.textstroke {
+  -webkit-text-stroke-width: 2px;
+  -webkit-text-stroke-color: var(--beige);
+}
+
+.textstrokeh2 {
+  -webkit-text-stroke-width: 1px;
+  -webkit-text-stroke-color: var(--beige);
+}
+
+.bgbeige {
+  background-color: var(--beige);
+}
+
+.bgorange {
+  background-color: var(--orange);
+}
+
+.bgturquoise {
+  background-color: var(--turquoise);
+}
+
+.bgbrown {
+  background-color: var(--brown);
+}
+
+.textbeige {
+  color: var(--beige);
+}
+
+.textorange {
+  color: var(--orange);
+}
+
+.textturquoise {
+  color: var(--turquoise);
+}
+
+.textbrown {
+  color: var(--brown);
+}
+
+.translate-center {
+  transform: translate(-50%, -50%);
+}
+/*chat css */
+
+.chat-sendBtn {
+  width: 10%;
+  background-color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-bottom: 15px;
+  cursor: pointer;
+}
+
+.chat-sendBtn:hover {
+  background-color: #d3d3d3;
+}
+
+.chat-sendBtn span {
+  color: var(--orange);
+  transform: rotate(310deg);
+  font-size: 50px;
+}
+
+.chat-local,
+.chat-other {
+  display: flex;
+  border-bottom: 2px solid var(--orange);
+  gap: 5px;
+}
+
+.chat-local img,
+.chat-other img {
+  width: 50px;
+  height: 50px;
+  margin: 5px;
+}
+
+.chat-local {
+  flex-direction: row-reverse;
+  background-color: var(--turquoise);
+}
+
+.chat-local p,
+.chat-other p {
+  padding: 5px;
+  margin: 5px;
+}
+
+@media (min-width: 840px) {
+  .homepresentation {
+    width: 50%;
+  }
+  .chatlayout {
+    width: 80%;
+  }
+}
+
+@media (max-width: 840px) {
+  .profile {
+    flex-direction: column;
+  }
+  .profile > div {
+    width: 100%;
+  }
+}

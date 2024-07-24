@@ -9,19 +9,21 @@
 
 const Login = () => {
   return (
-    <header className="login-header">
-      <div className="login-column login-brown"></div>
-      <div className="login-column login-beige"></div>
-      <div className="login-column login-turquoise"></div>
-      <div className="login-column login-orange"></div>
-      <div className="login-loginBlocks">
+    <header className="flex relative">
+      <div className="w-1/4 h-[40rem] bgbrown"></div>
+      <div className="w-1/4 h-[40rem] bgbeige"></div>
+      <div className="w-1/4 h-[40rem] bgturquoise"></div>
+      <div className="w-1/4 h-[40rem] bgorange"></div>
+      <div className="absolute w-[20rem] h-[10rem] top-[35%] left-[50%] translate-center text-center">
+        <h2 className="mt-0 mb-8 text-2xl mx-auto">Sign Up for Book Hub!</h2>
         <p>
-          Lorem ipsum dolor sit amet consectetur, adipisicing elit. Velit quia
-          exercitationem ullam est? Est illum pariatur maxime velit? Quaerat
-          amet fugit error mollitia distinctio nemo assumenda modi, tempora
-          aperiam cupiditate?
+          Welcome to Book Hub, the ultimate platform for tracking and
+          discovering books! Join our community of book lovers and gain access
+          to personalized book tracking, recommendations, and much more.
         </p>
-        <button>Sign In with Google</button>
+        <button className="mt-8 w-full bgorange px-3 py-1 rounded-lg hover:bg-orange-600">
+          Sign In with Google
+        </button>
       </div>
     </header>
   );

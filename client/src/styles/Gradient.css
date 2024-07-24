@@ -1,8 +1,0 @@
-.gradient {
-  height: 1rem;
-  display: flex;
-}
-
-.gradient * {
-  width: 25%;
-}
