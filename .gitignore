@@ -1,1 +1,26 @@
+.DS_Store# Node modules
+node_modules/
+
+# Logs
+*.log
+
+# Dependency directories
+jspm_packages/
+
+# Build output
+dist/
+build/
+
+# Environment variables
+.env
+.env.*.local
+
+# IDEs and editors
+.idea/
+.vscode/
+*.sublime-workspace
+*.sublime-project
+
+# OS-specific files
 .DS_Store
+Thumbs.db
