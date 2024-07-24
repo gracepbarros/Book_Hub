@@ -1,7 +1,7 @@
 import "../styles/Profile.css";
 import Nav from "../components/Nav";
 import Gradient from "../components/Gradient";
-import Tabs from "../components/Tabs";
+import ProfileTabs from "../components/ProfileTabs";
 import { useEffect } from "react";
 
 function ProfilePage() {
@@ -18,7 +18,7 @@ function ProfilePage() {
     <div className="container">
       <Nav />
       <Gradient />
-      <Tabs />
+      <ProfileTabs />
       <Gradient />
     </div>
   );

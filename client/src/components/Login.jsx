@@ -9,24 +9,19 @@
 
 const Login = () => {
   return (
-    <header>
-      <div className="column brown"></div>
-      <div className="column beige"></div>
-      <div className="column turquoise"></div>
-      <div className="column orange"></div>
-      <div className="loginBlocks">
-        <div className="row">
-          <span class="material-symbols-outlined">import_contacts</span>
-          <input type="text" placeholder="Username" />
-        </div>
-        <div className="row">
-          <span class="material-symbols-outlined">book_4</span>
-          <input type="text" placeholder="Password" />
-        </div>
-        <div className="buttons">
-          <button className="forgotBtn">Forgot Password</button>
-          <button className="signInBtn">Sign In</button>
-        </div>
+    <header className="login-header">
+      <div className="login-column login-brown"></div>
+      <div className="login-column login-beige"></div>
+      <div className="login-column login-turquoise"></div>
+      <div className="login-column login-orange"></div>
+      <div className="login-loginBlocks">
+        <p>
+          Lorem ipsum dolor sit amet consectetur, adipisicing elit. Velit quia
+          exercitationem ullam est? Est illum pariatur maxime velit? Quaerat
+          amet fugit error mollitia distinctio nemo assumenda modi, tempora
+          aperiam cupiditate?
+        </p>
+        <button>Sign In with Google</button>
       </div>
     </header>
   );

@@ -6,7 +6,7 @@ const LoginNav = () => {
       <Link to="/">
         <h1>Book Hub</h1>
       </Link>
-      <button className="signUpBtn">Sign Up</button>
+      <button className="login-signUpBtn">Sign Up</button>
     </nav>
   );
 };
