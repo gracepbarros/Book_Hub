@@ -14,7 +14,8 @@
     "cors": "^2.8.5",
     "express": "^4.19.2",
     "morgan": "^1.10.0",
-    "path": "^0.12.7"
+    "path": "^0.12.7",
+    "socket.io": "^4.7.5"
   },
   "devDependencies": {
     "@types/node": "^20.14.11",

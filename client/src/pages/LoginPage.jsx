@@ -1,11 +1,10 @@
-import "../styles/Login.css";
 import LoginNav from "../components/LoginNav";
 import Gradient from "../components/Gradient";
 import Login from "../components/Login";
 
 function LoginPage() {
   return (
-    <div className="container">
+    <div>
       <LoginNav />
       <Gradient />
       <Login />

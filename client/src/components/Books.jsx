@@ -1,10 +1,10 @@
 const Books = () => {
   return (
-    <div className="books-container">
-      <div className="books-row books-unread"></div>
-      <div className="books-row books-reading"></div>
-      <div className="books-row books-read"></div>
-      <div className="books-row books-abandoned"></div>
+    <div className="w-full mx-auto relative">
+      <div className="min-h-[12rem] bgbeige"></div>
+      <div className="min-h-[12rem] bgturquoise"></div>
+      <div className="min-h-[12rem] bgorange"></div>
+      <div className="min-h-[12rem] bgbrown"></div>
     </div>
   );
 };
