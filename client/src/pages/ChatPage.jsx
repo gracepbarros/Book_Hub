@@ -2,6 +2,8 @@ import Nav from "../components/Nav";
 import Gradient from "../components/Gradient";
 import Chat from "../components/Chat";
 
+
+
 function ChatPage() {
   return (
     <div>
