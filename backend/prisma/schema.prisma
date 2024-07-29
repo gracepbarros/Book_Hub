@@ -17,27 +17,17 @@ model User {
   userID String @id @default(uuid())
   name String
   email String
-  alerts Alert[]
   userbooks UserShelf[]
-}
-
-model Alert {
-  bookID String
-  userID String
-  date DateTime
-  user User @relation(fields:[userID], references: [userID])
-
-  @@id([bookID, userID])
 }
 
 model UserShelf {
   shelfID String @id @default(uuid())
-  bookID String
+  googleID String
   userID String
   category Int
   progress Int
   favorite Boolean
   user User @relation(fields:[userID], references: [userID])
 
-  @@index([bookID, userID])
+  @@index([googleID, userID])
 }

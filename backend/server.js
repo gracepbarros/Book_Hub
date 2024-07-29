@@ -4,7 +4,7 @@ import path from "path";
 import cookieParser from "cookie-parser";
 import logger from "morgan";
 import cors from "cors";
-import apiRouter from "./routes/api.js";
+import apiRouter from "./routes/bookRouter.js"
 // import { Server } from "socket.io";
 import http from "http";
 
@@ -28,8 +28,24 @@ app.use(
   })
 );
 
+app.use(
+  cors({
+    origin: "http://localhost:5173", // Frontend origin (adjust if necessary)
+    credentials: true,
+  })
+);
+
 app.use(express.static(path.join("../client/")));
 
+// Move the Google login route here, before error handlers
+app.post("/api/google-login", (req, res) => {
+  const { googleId, tokenId } = req.body;
+  console.log("Received Google ID:", googleId);
+  console.log("Received Token ID:", tokenId);
+
+  // Process the data as needed
+  res.status(200).json({ message: "Google ID received" });
+});
 // Move the Google login route here, before error handlers
 app.post("/api/google-login", (req, res) => {
   const { googleId, tokenId } = req.body;
@@ -60,7 +76,7 @@ app.post("/api/google-login", (req, res) => {
 //   });
 // })
 
-app.use("/api", apiRouter);
+app.use("/bookList", apiRouter);
 
 // function disconnectAllSockets() {
 //   io.sockets.sockets.forEach(socket => {
@@ -92,3 +108,4 @@ app.use(function (err, req, res, next) {
 server.listen(port, () => {
   console.log(`Server started at http://localhost:${port}`);
 });
+
