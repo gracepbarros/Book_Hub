@@ -4,7 +4,7 @@ import path from "path";
 import cookieParser from "cookie-parser";
 import logger from "morgan";
 import cors from "cors";
-import apiRouter from "./routes/api.js"
+import apiRouter from "./routes/bookRouter.js"
 // import { Server } from "socket.io";
 import http from "http";
 
@@ -46,7 +46,7 @@ app.use(express.static(path.join("../client/")));
 //   });
 // })
 
-app.use("/api", apiRouter);
+app.use("/bookList", apiRouter);
 
 // function disconnectAllSockets() {
 //   io.sockets.sockets.forEach(socket => {
