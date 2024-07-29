@@ -22,12 +22,12 @@ model User {
 
 model UserShelf {
   shelfID String @id @default(uuid())
-  ISBN String
+  googleID String
   userID String
   category Int
   progress Int
   favorite Boolean
   user User @relation(fields:[userID], references: [userID])
 
-  @@index([ISBN, userID])
+  @@index([googleID, userID])
 }
