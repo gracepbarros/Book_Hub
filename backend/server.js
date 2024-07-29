@@ -8,7 +8,6 @@ import apiRouter from "./routes/bookRouter.js"
 // import { Server } from "socket.io";
 import http from "http";
 
-
 // Constants
 const port = process.env.PORT || 3000;
 
@@ -21,10 +20,25 @@ app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
-app.use(cors());
+
+app.use(
+  cors({
+    origin: "http://localhost:5173", // Frontend origin (adjust if necessary)
+    credentials: true,
+  })
+);
 
 app.use(express.static(path.join("../client/")));
 
+// Move the Google login route here, before error handlers
+app.post("/api/google-login", (req, res) => {
+  const { googleId, tokenId } = req.body;
+  console.log("Received Google ID:", googleId);
+  console.log("Received Token ID:", tokenId);
+
+  // Process the data as needed
+  res.status(200).json({ message: "Google ID received" });
+});
 
 // const io = new Server(server, {
 //   cors: {
