@@ -1,6 +1,7 @@
 import Nav from "../components/Nav";
 import Header from "../components/Header";
 import Gradient from "../components/Gradient";
+import BookList from "../components/BookList";
 
 function Home() {
   return (
@@ -8,6 +9,7 @@ function Home() {
       <Nav />
       <Gradient />
       <Header />
+      <BookList />
       <Gradient />
     </div>
   );

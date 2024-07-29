@@ -30,10 +30,10 @@ function formatBookData(rawitem){
 // Book search - get a list of books
 router.get("/", async (req, res) => {
     try {
-      const query = req.query.q;
+      const query = req.query.q || 'bridgerton';
 
       if (!query) {
-        res.status(400).send('Missing query parameter');
+        console.error('No query provided. Default search "Bridgerton" was used.');
       }
     
       const limit = req.query.limit || 10;
