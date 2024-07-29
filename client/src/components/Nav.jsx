@@ -1,6 +1,27 @@
 import { Link } from "react-router-dom";
+import GoogleAuthLogin from "./GoogleAuthLogin";
+import GoogleAuthLogout from "./GoogleAuthLogout";
+import { useEffect } from "react";
+import { gapi } from "gapi-script";
+import { useAuth } from "../AuthContext"; // Import useAuth
+
+const clientId = import.meta.env.VITE_GOOGLE_CLIENT_ID;
 
 const Nav = () => {
+  const { user } = useAuth(); // Use the useAuth hook to get the user state
+
+  useEffect(() => {
+    function start() {
+      gapi.client.init({
+        clientId: clientId,
+        scope: "",
+      });
+    }
+    gapi.load("client:auth2", start);
+  }, []);
+
+  console.log("Google Client ID:", clientId);
+
   return (
     <div className="flex justify-between items-end h-12 my-4">
       <div className="">
@@ -18,13 +39,14 @@ const Nav = () => {
           Book Hub
         </h1>
       </Link>
-      <div className="">
+      <div className="flex items-end mr-2">
         <Link to="/chat">
           <span className="material-symbols-outlined px-1">chat_bubble</span>
         </Link>
         <Link to="/profile">
           <span className="material-symbols-outlined px-2">account_circle</span>
         </Link>
+        {user ? <GoogleAuthLogout /> : <GoogleAuthLogin />}
       </div>
     </div>
   );

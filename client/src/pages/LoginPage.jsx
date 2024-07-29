@@ -1,11 +1,11 @@
-import LoginNav from "../components/LoginNav";
+import Nav from "../components/Nav";
 import Gradient from "../components/Gradient";
 import Login from "../components/Login";
 
 function LoginPage() {
   return (
     <div>
-      <LoginNav />
+      <Nav />
       <Gradient />
       <Login />
       <Gradient />
