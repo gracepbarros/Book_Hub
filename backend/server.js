@@ -5,7 +5,7 @@ import cookieParser from "cookie-parser";
 import logger from "morgan";
 import cors from "cors";
 import apiRouter from "./routes/bookRouter.js"
-// import { Server } from "socket.io";
+import { Server } from "socket.io";
 import http from "http";
 
 // Constants
@@ -40,8 +40,8 @@ app.use(express.static(path.join("../client/")));
 // Move the Google login route here, before error handlers
 app.post("/api/google-login", (req, res) => {
   const { googleId, tokenId } = req.body;
-  console.log("Received Google ID:", googleId);
-  console.log("Received Token ID:", tokenId);
+  // console.log("Received Google ID:", googleId);
+  // console.log("Received Token ID:", tokenId);
 
   // Process the data as needed
   res.status(200).json({ message: "Google ID received" });
@@ -49,44 +49,45 @@ app.post("/api/google-login", (req, res) => {
 // Move the Google login route here, before error handlers
 app.post("/api/google-login", (req, res) => {
   const { googleId, tokenId } = req.body;
-  console.log("Received Google ID:", googleId);
-  console.log("Received Token ID:", tokenId);
+  // console.log("Received Google ID:", googleId);
+  // console.log("Received Token ID:", tokenId);
 
   // Process the data as needed
   res.status(200).json({ message: "Google ID received" });
 });
 
-// const io = new Server(server, {
-//   cors: {
-//       origin: "http://localhost:5173",
-//       methods: ["GET", "POST"],
-//   }
-// })
+const io = new Server(server, {
+  cors: {
+      origin: "http://localhost:5173",
+      methods: ["GET", "POST"],
+  }
+})
 
-// io.on("connection", (socket) => {
-//   console.log(`Socket user: ${socket.id}`);
+io.on("connection", (socket) => {
+  console.log(`Socket user: ${socket.id}`);
 
-//   socket.on("send_message", (data) => {
-//     console.log(data); // Log the message data
-//     io.emit('new_message', data);
-//   });
+  socket.on("send_message", (data) => {
+    console.log(data); // Log the message data
+    io.emit('new_message', data);
+  });
 
-//   socket.on("disconnect", () => {
-//       console.log("user disconnected");
-//   });
-// })
+  socket.on("disconnect", () => {
+      console.log("user disconnected");
+  });
+})
 
 app.use("/bookList", apiRouter);
 
-// function disconnectAllSockets() {
-//   io.sockets.sockets.forEach(socket => {
-//     socket.disconnect(true); // `true` will force the disconnection
-//   });
-// }
-// app.post("/disconnect-sockets", (req, res) => {
-//   disconnectAllSockets();
-//   res.send("All sockets disconnected");
-// });
+function disconnectAllSockets() {
+  io.sockets.sockets.forEach(socket => {
+    console.log(socket.id);
+    socket.disconnect(true); // `true` will force the disconnection
+  });
+}
+app.post("/disconnect-sockets", (req, res) => {
+  disconnectAllSockets();
+  res.send("All sockets disconnected");
+});
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
