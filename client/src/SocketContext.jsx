@@ -9,16 +9,24 @@ export const SocketProvider = ({ children }) => {
     const {user} = useAuth();
 
     useEffect(() => {
-        const s = io.connect("http://localhost:3000/", {query: user.googleId});
-        setSocket(s);
-        return () => {
-            s.disconnect();
-        };
-    }, []);
+        if(user){
+            const s = io.connect("http://localhost:3000", {query: user.googleId});
+            setSocket(s);
+            return () => {
+                s.disconnect();
+            };
+        }
+    }, [user]);
+
+    // console.log(socket); -> the problem is here
+    // when u reload the page, as there's no caching implemented, it resets the socket to null
+    // @Piero, i think we can use the same principle u have used for the oauth, later on, if there is time, we can use redis, in the same way we did in our assignment
+    // thank u
 
     const disconnectSocket = () => {
-        if(socket)
+        if(socket){
             socket.disconnect();
+        }
     }
 
     return (

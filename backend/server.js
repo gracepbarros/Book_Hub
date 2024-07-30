@@ -28,13 +28,6 @@ app.use(
   })
 );
 
-app.use(
-  cors({
-    origin: "http://localhost:5173", // Frontend origin (adjust if necessary)
-    credentials: true,
-  })
-);
-
 app.use(express.static(path.join("../client/")));
 
 // Move the Google login route here, before error handlers
@@ -80,7 +73,7 @@ app.use("/bookList", apiRouter);
 
 function disconnectAllSockets() {
   io.sockets.sockets.forEach(socket => {
-    console.log(socket.id);
+    // console.log(socket.id);
     socket.disconnect(true); // `true` will force the disconnection
   });
 }
