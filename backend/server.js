@@ -4,7 +4,7 @@ import path from "path";
 import cookieParser from "cookie-parser";
 import logger from "morgan";
 import cors from "cors";
-import apiRouter from "./routes/bookRouter.js"
+import apiRouter from "./routes/bookRouter.js";
 import { Server } from "socket.io";
 import http from "http";
 
@@ -28,24 +28,8 @@ app.use(
   })
 );
 
-app.use(
-  cors({
-    origin: "http://localhost:5173", // Frontend origin (adjust if necessary)
-    credentials: true,
-  })
-);
-
 app.use(express.static(path.join("../client/")));
 
-// Move the Google login route here, before error handlers
-app.post("/api/google-login", (req, res) => {
-  const { googleId, tokenId } = req.body;
-  // console.log("Received Google ID:", googleId);
-  // console.log("Received Token ID:", tokenId);
-
-  // Process the data as needed
-  res.status(200).json({ message: "Google ID received" });
-});
 // Move the Google login route here, before error handlers
 app.post("/api/google-login", (req, res) => {
   const { googleId, tokenId } = req.body;
@@ -58,29 +42,29 @@ app.post("/api/google-login", (req, res) => {
 
 const io = new Server(server, {
   cors: {
-      origin: "http://localhost:5173",
-      methods: ["GET", "POST"],
-  }
-})
+    origin: "http://localhost:5173",
+    methods: ["GET", "POST"],
+  },
+});
 
 io.on("connection", (socket) => {
   console.log(`Socket user: ${socket.id}`);
 
   socket.on("send_message", (data) => {
     console.log(data); // Log the message data
-    io.emit('new_message', data);
+    io.emit("new_message", data);
   });
 
   socket.on("disconnect", () => {
-      console.log("user disconnected");
+    console.log("user disconnected");
   });
-})
+});
 
 app.use("/bookList", apiRouter);
 
 function disconnectAllSockets() {
-  io.sockets.sockets.forEach(socket => {
-    console.log(socket.id);
+  io.sockets.sockets.forEach((socket) => {
+    // console.log(socket.id);
     socket.disconnect(true); // `true` will force the disconnection
   });
 }
@@ -109,4 +93,3 @@ app.use(function (err, req, res, next) {
 server.listen(port, () => {
   console.log(`Server started at http://localhost:${port}`);
 });
-

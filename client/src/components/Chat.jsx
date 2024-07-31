@@ -1,4 +1,4 @@
-import { useState, useEffect} from "react";
+import { useState, useEffect } from "react";
 import { useAuth } from "../AuthContext";
 import { useSocket } from "../SocketContext";
 
@@ -8,8 +8,8 @@ import { useSocket } from "../SocketContext";
 />;
 
 const Chat = () => {
-  const {user} = useAuth();
-  const {socket} = useSocket();
+  const { user } = useAuth();
+  const { socket } = useSocket();
   // console.log(user); 
 
   const [messages, setMessages] = useState([]);
@@ -37,12 +37,13 @@ const Chat = () => {
     return () => {
       socket.off('new_message', handleMessage);
     };
-  }, []); 
+  }, []);
+
 
   // console.log(messages);
   return (
     <div className="flex flex-col mx-auto w-[100%] h-[80vh] chatlayout">
-      {messages.length!==0 ?
+      {messages.length !== 0 ?
         <div className="w-full h-[80vh]">
           {messages.map((message) => {
             return (
