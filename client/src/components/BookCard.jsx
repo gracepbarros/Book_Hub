@@ -1,13 +1,13 @@
 import React, { useState } from "react";
 import hppicture from "../images/hpbook.jpg";
-import Dropdown from "react-bootstrap/Dropdown";
-import DropdownButton from "react-bootstrap/DropdownButton";
+import { Menu, Transition } from "@headlessui/react";
+import { MenuButton, MenuItems, MenuItem } from "@headlessui/react";
 
 const BookCard = () => {
   const [currentMood, setCurrentMood] = useState("Add to Shelf");
   const [buttonColor, setButtonColor] = useState("#f8f9fa");
 
-  const handleSelect = (mood, color, textColor) => {
+  const handleSelect = (mood, color) => {
     setCurrentMood(mood);
     setButtonColor(color);
   };
@@ -16,49 +16,88 @@ const BookCard = () => {
     <div className="bookcard">
       <img className="chunk1" src={hppicture} alt="Book Cover" />
       <div className="chunk2 irishgrover">
-        <p>
+        <p className="flex justify-center items-center">
           Add to{" "}
           <span className="material-symbols-outlined px-2 text-red-500">
             favorite
           </span>
         </p>
 
-        <DropdownButton
-          id="dropdown-basic-button"
-          title={currentMood}
-          variant="custom"
-          style={{
-            backgroundColor: buttonColor,
-            color: "black",
-            border: "none",
-            padding: "0.5rem 1rem",
-          }}
-        >
-          <Dropdown.Item
-            onClick={() => handleSelect("Unread", "#f5f5dc")}
-            className="bgbeige"
+        <Menu as="div" className="relative inline-block text-left">
+          <MenuButton
+            className="inline-flex justify-center w-full rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+            style={{
+              backgroundColor: buttonColor,
+              color: "black",
+            }}
           >
-            Unread
-          </Dropdown.Item>
-          <Dropdown.Item
-            onClick={() => handleSelect("Reading", "#40E0D0")}
-            className="bgturquoise"
+            {currentMood}
+          </MenuButton>
+
+          <Transition
+            enter="transition ease-out duration-100"
+            enterFrom="transform opacity-0 scale-95"
+            enterTo="transform opacity-100 scale-100"
+            leave="transition ease-in duration-75"
+            leaveFrom="transform opacity-100 scale-100"
+            leaveTo="transform opacity-0 scale-95"
           >
-            Reading
-          </Dropdown.Item>
-          <Dropdown.Item
-            onClick={() => handleSelect("Read", "#FFA500")}
-            className="bgorange"
-          >
-            Read
-          </Dropdown.Item>
-          <Dropdown.Item
-            onClick={() => handleSelect("Abandoned", "#8B4513")}
-            className="bgbrown"
-          >
-            Abandoned
-          </Dropdown.Item>
-        </DropdownButton>
+            <MenuItems className="absolute right-0 w-56 mt-2 origin-top-right bg-white divide-y divide-gray-100 rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+              <div className="px-1 py-1">
+                <MenuItem>
+                  {({ active }) => (
+                    <button
+                      className={`${
+                        active ? "bgbeige" : ""
+                      } group flex rounded-md items-center w-full px-2 py-2 text-sm`}
+                      onClick={() => handleSelect("Unread", "var(--beige)")}
+                    >
+                      Unread
+                    </button>
+                  )}
+                </MenuItem>
+                <MenuItem>
+                  {({ active }) => (
+                    <button
+                      className={`${
+                        active ? "bgturquoise" : ""
+                      } group flex rounded-md items-center w-full px-2 py-2 text-sm`}
+                      onClick={() =>
+                        handleSelect("Reading", "var(--turquoise)")
+                      }
+                    >
+                      Reading
+                    </button>
+                  )}
+                </MenuItem>
+                <MenuItem>
+                  {({ active }) => (
+                    <button
+                      className={`${
+                        active ? "bgorange" : ""
+                      } group flex rounded-md items-center w-full px-2 py-2 text-sm`}
+                      onClick={() => handleSelect("Read", "var(--orange)")}
+                    >
+                      Read
+                    </button>
+                  )}
+                </MenuItem>
+                <MenuItem>
+                  {({ active }) => (
+                    <button
+                      className={`${
+                        active ? "bgbrown" : ""
+                      } group flex rounded-md items-center w-full px-2 py-2 text-sm`}
+                      onClick={() => handleSelect("Abandoned", "var(--brown)")}
+                    >
+                      Abandoned
+                    </button>
+                  )}
+                </MenuItem>
+              </div>
+            </MenuItems>
+          </Transition>
+        </Menu>
       </div>
       <div className="chunk3">
         <p className="irishgrover textorange text-2xl">A title name</p>

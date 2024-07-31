@@ -8,7 +8,6 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "./AuthContext";
 import PrivateRoute from "./components/PrivateRoute"; // Import the PrivateRoute component
 import { SocketProvider } from "./SocketContext";
-import "bootstrap/dist/css/bootstrap.min.css";
 
 function App() {
   return (
