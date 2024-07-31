@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useAuth } from "../AuthContext";
-import { useSocket } from "../SocketContext";
+import io from "socket.io-client";
 
 <link
   rel="stylesheet"
@@ -9,11 +9,29 @@ import { useSocket } from "../SocketContext";
 
 const Chat = () => {
   const { user } = useAuth();
-  const { socket } = useSocket();
-  // console.log(user); 
+  const [socket, setSocket] = useState(null);
+
+  useEffect(() => {
+    if (user) {
+      const s = io.connect("http://localhost:3000", { query: user.googleId });
+      setSocket(s);
+      return () => {
+        s.disconnect();
+      };
+    }
+  }, [user]);
 
   const [messages, setMessages] = useState([]);
   const [currMessage, setCurrMessage] = useState("");
+
+  useEffect(() => {
+    fetch("http://localhost:3000/messages")
+      .then(response => response.json())
+      .then(data => setMessages(data))
+      .catch(err => console.error("Not able to load the messages: ", err));
+  }, []);
+
+  console.log(messages);
 
   function sendMessage() {
     if (currMessage !== "") {
@@ -28,19 +46,19 @@ const Chat = () => {
   }
 
   useEffect(() => {
-    const handleMessage = (data) => {
-      setMessages((oldMessages) => [...oldMessages, data]);
-    };
+    if (socket) {
+      const handleMessage = (data) => {
+        setMessages((oldMessages) => [...oldMessages, data]);
+      };
 
-    socket.on('new_message', handleMessage);
+      socket.on('new_message', handleMessage);
 
-    return () => {
-      socket.off('new_message', handleMessage);
-    };
-  }, []);
+      return () => {
+        socket.off('new_message', handleMessage);
+      };
+    }
+  }, [socket]);
 
-
-  // console.log(messages);
   return (
     <div className="flex flex-col mx-auto w-[100%] h-[80vh] chatlayout">
       {messages.length !== 0 ?

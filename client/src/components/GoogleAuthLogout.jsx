@@ -1,16 +1,13 @@
 import { GoogleLogout } from "react-google-login";
 import { useAuth } from "../AuthContext";
-import { useSocket } from "../SocketContext";
 
 const clientId = import.meta.env.VITE_GOOGLE_CLIENT_ID;
 
 const GoogleAuthLogout = () => {
   const { logout } = useAuth();
-  const { disconnectSocket } = useSocket();
 
   const onLogoutSuccess = () => {
     console.log("Logout successful!");
-    disconnectSocket();
     logout();
   };
 

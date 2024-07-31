@@ -7,6 +7,7 @@ import cors from "cors";
 import apiRouter from "./routes/bookRouter.js";
 import { Server } from "socket.io";
 import http from "http";
+import { messages, addMessage, resetMessages } from "./messages.js";
 
 // Constants
 const port = process.env.PORT || 3000;
@@ -52,6 +53,7 @@ io.on("connection", (socket) => {
 
   socket.on("send_message", (data) => {
     console.log(data); // Log the message data
+    addMessage(data);
     io.emit("new_message", data);
   });
 
@@ -61,17 +63,24 @@ io.on("connection", (socket) => {
 });
 
 app.use("/bookList", apiRouter);
+app.use('/messages', (req, res) => {
+  res.status(200).send(messages());
+})
 
-function disconnectAllSockets() {
-  io.sockets.sockets.forEach((socket) => {
-    // console.log(socket.id);
-    socket.disconnect(true); // `true` will force the disconnection
-  });
-}
-app.post("/disconnect-sockets", (req, res) => {
-  disconnectAllSockets();
-  res.send("All sockets disconnected");
-});
+setInterval(() => {
+  resetMessages();
+}, ((12 * 60 * 60 * 1000) + (30 * 60 * 1000)));
+
+// function disconnectAllSockets() {
+//   io.sockets.sockets.forEach((socket) => {
+//     // console.log(socket.id);
+//     socket.disconnect(true); // `true` will force the disconnection
+//   });
+// }
+// app.post("/disconnect-sockets", (req, res) => {
+//   disconnectAllSockets();
+//   res.send("All sockets disconnected");
+// });
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
