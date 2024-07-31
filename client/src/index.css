@@ -26,6 +26,11 @@
   -webkit-text-stroke-color: var(--beige);
 }
 
+.textstroke-w {
+  -webkit-text-stroke-width: 2px;
+  -webkit-text-stroke-color: var(--white);
+}
+
 .bgbeige {
   background-color: var(--beige);
 }

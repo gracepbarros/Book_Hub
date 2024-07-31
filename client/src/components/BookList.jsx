@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import BookCard from './BookCard';
+import BookCard from './BookDisplay';
 import SearchBar from './SearchBar';
 
 const BookList = () => {
