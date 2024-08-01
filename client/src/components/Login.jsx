@@ -14,21 +14,34 @@ const Login = () => {
   const { user } = useAuth();
 
   return (
-    <header className="flex relative">
-      <div className="w-1/4 h-[40rem] bgbrown"></div>
-      <div className="w-1/4 h-[40rem] bgbeige"></div>
-      <div className="w-1/4 h-[40rem] bgturquoise"></div>
-      <div className="w-1/4 h-[40rem] bgorange"></div>
-      <div className="absolute w-[20rem] h-[10rem] top-[35%] left-[50%] translate-center text-center">
-        <h2 className="mt-0 mb-8 text-2xl mx-auto">Sign Up for Book Hub!</h2>
+    <div className="flex h-[22rem] bghome">
+    <div className="homepresentation absolute top-[35%] left-[50%] w-[80%] mx-auto translate-center text-center">
+      <h2 className="mt-12 mb-9 text-3xl mx-auto font-bold irishgrover textbrown bgturquoise">
+      Sign Up for Book Hub!
+      </h2>
+      <div className="mx-auto bgbrown textbeige borderbeige p-4">
         <p>
-          Welcome to Book Hub, the ultimate platform for tracking and
-          discovering books! Join our community of book lovers and gain access
-          to personalized book tracking, recommendations, and much more.
+          Discover, track, and share your reading journey with Book Hub.
+          Whether you're an avid reader or just starting out, 
+          Book Hub is your companion for all things books. 
         </p>
+        <div className="text-left py-2">
+          <p> 
+            <em className="font-bold textorange">Track Your Reads:</em> Keep a record of every book among the shelf categories unread, reading, read, and abbandoned. 
+            <em className="font-bold textorange"> Sign in to access!</em>
+          </p>
+          <p>
+          <em className="font-bold textorange">Discover New Books:</em> Explore our library and find your next favorite read. 
+          </p>
+          <p>
+          <em className="font-bold textorange">Join the Community:</em> Talk with others, share recommendations, and connect with fellow book lovers through our general chat!
+          <em className="font-bold textorange"> Sign in to access!</em>
+          </p>
+        </div>
         {user ? <GoogleAuthLogout /> : <GoogleAuthLogin />}
       </div>
-    </header>
+    </div>
+  </div>
   );
 };
 
