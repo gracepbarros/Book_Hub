@@ -8,6 +8,8 @@ import apiRouter from "./routes/bookRouter.js";
 import { Server } from "socket.io";
 import http from "http";
 import { messages, addMessage, resetMessages } from "./messages.js";
+import { PrismaClient } from "@prisma/client";
+const prisma = new PrismaClient();
 
 // Constants
 const port = process.env.PORT || 3000;
@@ -31,14 +33,36 @@ app.use(
 
 app.use(express.static(path.join("../client/")));
 
-// Move the Google login route here, before error handlers
-app.post("/api/google-login", (req, res) => {
-  const { googleId, tokenId } = req.body;
-  // console.log("Received Google ID:", googleId);
-  // console.log("Received Token ID:", tokenId);
+app.post("/api/google-login", async (req, res) => {
+  const { googleId, name, email } = req.body;
 
-  // Process the data as needed
-  res.status(200).json({ message: "Google ID received" });
+  try {
+    // Check if the user already exists
+    let user = await prisma.user.findUnique({
+      where: { userID: googleId },
+    });
+
+    if (!user) {
+      // If user does not exist, create a new user
+      user = await prisma.user.create({
+        data: {
+          userID: googleId,
+          name,
+          email,
+        },
+      });
+    }
+
+    // Respond with the user information
+    res.status(200).json(user);
+  } catch (error) {
+    console.error("Error handling user login:", error);
+    if (error.code === "P2002") {
+      res.status(409).json({ error: "User already registered" });
+    } else {
+      res.status(500).json({ error: "Internal server error" });
+    }
+  }
 });
 
 const io = new Server(server, {
@@ -63,13 +87,13 @@ io.on("connection", (socket) => {
 });
 
 app.use("/bookList", apiRouter);
-app.use('/messages', (req, res) => {
+app.use("/messages", (req, res) => {
   res.status(200).send(messages());
-})
+});
 
 setInterval(() => {
   resetMessages();
-}, ((12 * 60 * 60 * 1000) + (30 * 60 * 1000)));
+}, 12 * 60 * 60 * 1000 + 30 * 60 * 1000);
 
 // function disconnectAllSockets() {
 //   io.sockets.sockets.forEach((socket) => {
