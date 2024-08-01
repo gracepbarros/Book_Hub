@@ -1,6 +1,7 @@
 import Nav from "../components/Nav";
 import Gradient from "../components/Gradient";
 import BooksGradient from "../components/BooksGradient";
+import Footer from "../components/Footer";
 
 function BooksPage() {
   return (
@@ -13,6 +14,7 @@ function BooksPage() {
       <BooksGradient color="orange" category="Read" />
       <BooksGradient color="brown" category="Abbandoned" />
       <Gradient />
+      <Footer />
     </div>
   );
 }

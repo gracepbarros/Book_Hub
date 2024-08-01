@@ -5,7 +5,7 @@
   --orange: #fc7138;
   --turquoise: #a3e7d8;
   --brown: #6b5c49;
-  --wine: #C80B0B;
+  --wine: #c80b0b;
   --white: #ffffff;
   --lightyellow: #ffb300;
   --font-size: 1.3rem;
@@ -52,8 +52,8 @@
   background-color: var(--wine);
 }
 
-.bghome{  
-  background-image: url('images/pattern.svg');
+.bghome {
+  background-image: url("images/pattern.svg");
   background-repeat: repeat;
   background-size: cover;
   animation: moveBackground 2s linear infinite;

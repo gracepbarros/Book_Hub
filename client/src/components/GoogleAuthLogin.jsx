@@ -51,7 +51,7 @@ const GoogleAuthLogin = () => {
             disabled={renderProps.disabled}
             className="mt-8 w-full bg-orange-500 text-white px-3 py-1 rounded-lg hover:bg-orange-600"
           >
-            Sign In with Google
+            Login
           </button>
         )}
       />

@@ -1,8 +1,7 @@
 import Nav from "../components/Nav";
 import Gradient from "../components/Gradient";
 import Chat from "../components/Chat";
-
-
+import Footer from "../components/Footer";
 
 function ChatPage() {
   return (
@@ -11,6 +10,7 @@ function ChatPage() {
       <Gradient />
       <Chat />
       <Gradient />
+      <Footer />
     </div>
   );
 }

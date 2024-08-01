@@ -25,19 +25,21 @@ const Nav = () => {
       <div className="">
         <Link to="/books">
           <span className="material-symbols-outlined px-2">
-            import_contacts 
+            import_contacts
           </span>
         </Link>
         <Link to="/">
           <span className="material-symbols-outlined px-1">search</span>
         </Link>
       </div>
-      <Link to="/">
-        <h1 className="irishgrover text-6xl font-bolder m-0 textstroke">
-          Book Hub
-        </h1>
-      </Link>
-      <div className="flex items-end mr-2">
+      <div className="absolute top-3 left-1/2 transform -translate-x-1/2 flex items-center">
+        <Link to="/">
+          <h1 className="irishgrover text-5xl font-bolder mx-0 mt-2 mb-0 textstroke">
+            Book Hub
+          </h1>
+        </Link>
+      </div>
+      <div className="flex items-end mr-4">
         <Link to="/chat">
           <span className="material-symbols-outlined px-1">chat_bubble</span>
         </Link>

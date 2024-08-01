@@ -2,17 +2,17 @@ import Nav from "../components/Nav";
 import Header from "../components/Header";
 import Gradient from "../components/Gradient";
 import BookList from "../components/BookList";
+import Footer from "../components/Footer";
 
 function Home() {
   return (
     <div>
       <Nav />
       <Gradient />
-      <div className="bghome">
-        <Header />
-        <BookList />
-      </div>
+      <Header />
+      {/* <BookList /> */}
       <Gradient />
+      <Footer />
     </div>
   );
 }
