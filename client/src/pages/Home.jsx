@@ -8,8 +8,10 @@ function Home() {
     <div>
       <Nav />
       <Gradient />
-      <Header />
-      <BookList />
+      <div className="bghome">
+        <Header />
+        <BookList />
+      </div>
       <Gradient />
     </div>
   );

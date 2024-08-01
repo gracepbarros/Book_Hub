@@ -7,6 +7,7 @@ function BooksPage() {
     <div>
       <Nav />
       <Gradient />
+      <BooksGradient color="wine" category="Favorite" />
       <BooksGradient color="beige" category="Unread" />
       <BooksGradient color="turquoise" category="Reading" />
       <BooksGradient color="orange" category="Read" />

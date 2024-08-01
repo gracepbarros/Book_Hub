@@ -13,7 +13,7 @@ const BooksGradient = ({color, category}) => {
         </div>
         <div className="flex-1 flex items-center justify-center">
           <h1 className={`text-2xl font-extrabold irishgrover`}> 
-            No books at <em className="uppercase"> {category} </em> category.
+            No books added to the <em className="uppercase"> {category} </em> category.
           </h1>
         </div>
       </div>
