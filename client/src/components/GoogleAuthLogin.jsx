@@ -11,12 +11,12 @@ const GoogleAuthLogin = () => {
     console.log("Login Success! Current user: ", res.profileObj);
 
     const { profileObj, tokenId } = res;
-    const googleId = profileObj.googleId;
+    const { googleId, name, email } = profileObj;
 
     try {
       const response = await axios.post(
         "http://localhost:3000/api/google-login",
-        { googleId, tokenId },
+        { googleId, name, email, tokenId },
         {
           headers: {
             "Content-Type": "application/json",
