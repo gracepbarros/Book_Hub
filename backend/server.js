@@ -36,6 +36,8 @@ app.use(express.static(path.join("../client/")));
 app.post("/api/google-login", async (req, res) => {
   const { googleId, name, email } = req.body;
 
+  console.log(name);
+
   try {
     // Check if the user already exists
     let user = await prisma.user.findUnique({
@@ -47,8 +49,8 @@ app.post("/api/google-login", async (req, res) => {
       user = await prisma.user.create({
         data: {
           userID: googleId,
-          name,
-          email,
+          name: name,
+          email: email,
         },
       });
     }
