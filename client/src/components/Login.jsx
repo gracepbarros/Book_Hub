@@ -6,8 +6,13 @@
   rel="stylesheet"
   href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0"
 />;
+import GoogleAuthLogin from "./GoogleAuthLogin";
+import GoogleAuthLogout from "./GoogleAuthLogout";
+import { useAuth } from "../AuthContext";
 
 const Login = () => {
+  const { user } = useAuth();
+
   return (
     <header className="flex relative">
       <div className="w-1/4 h-[40rem] bgbrown"></div>
@@ -21,9 +26,7 @@ const Login = () => {
           discovering books! Join our community of book lovers and gain access
           to personalized book tracking, recommendations, and much more.
         </p>
-        <button className="mt-8 w-full bgorange px-3 py-1 rounded-lg hover:bg-orange-600">
-          Sign In with Google
-        </button>
+        {user ? <GoogleAuthLogout /> : <GoogleAuthLogin />}
       </div>
     </header>
   );

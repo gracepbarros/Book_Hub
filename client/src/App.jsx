@@ -11,13 +11,12 @@ import PrivateRoute from "./components/PrivateRoute"; // Import the PrivateRoute
 function App() {
   return (
     <AuthProvider>
+
       <Router>
         <Routes>
           <Route path="/login" element={<LoginPage />} />
-
           {/* Public route */}
           <Route path="/" element={<Home />} />
-
           {/* Protected routes */}
           <Route element={<PrivateRoute />}>
             <Route path="/profile" element={<ProfilePage />} />
@@ -26,6 +25,7 @@ function App() {
           </Route>
         </Routes>
       </Router>
+
     </AuthProvider>
   );
 }

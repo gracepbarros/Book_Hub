@@ -20,8 +20,6 @@ const Nav = () => {
     gapi.load("client:auth2", start);
   }, []);
 
-  console.log("Google Client ID:", clientId);
-
   return (
     <div className="flex justify-between items-end h-12 my-4">
       <div className="">

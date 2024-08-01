@@ -4,9 +4,12 @@ import path from "path";
 import cookieParser from "cookie-parser";
 import logger from "morgan";
 import cors from "cors";
-import apiRouter from "./routes/bookRouter.js"
-// import { Server } from "socket.io";
+import apiRouter from "./routes/bookRouter.js";
+import { Server } from "socket.io";
 import http from "http";
+import { messages, addMessage, resetMessages } from "./messages.js";
+import { PrismaClient } from "@prisma/client";
+const prisma = new PrismaClient();
 
 // Constants
 const port = process.env.PORT || 3000;
@@ -28,58 +31,73 @@ app.use(
   })
 );
 
-app.use(
-  cors({
-    origin: "http://localhost:5173", // Frontend origin (adjust if necessary)
-    credentials: true,
-  })
-);
-
 app.use(express.static(path.join("../client/")));
 
-// Move the Google login route here, before error handlers
-app.post("/api/google-login", (req, res) => {
-  const { googleId, tokenId } = req.body;
-  console.log("Received Google ID:", googleId);
-  console.log("Received Token ID:", tokenId);
+app.post("/api/google-login", async (req, res) => {
+  const { googleId, name, email } = req.body;
 
-  // Process the data as needed
-  res.status(200).json({ message: "Google ID received" });
+  try {
+    // Check if the user already exists
+    let user = await prisma.user.findUnique({
+      where: { userID: googleId },
+    });
+
+    if (!user) {
+      // If user does not exist, create a new user
+      user = await prisma.user.create({
+        data: {
+          userID: googleId,
+          name,
+          email,
+        },
+      });
+    }
+
+    // Respond with the user information
+    res.status(200).json(user);
+  } catch (error) {
+    console.error("Error handling user login:", error);
+    if (error.code === "P2002") {
+      res.status(409).json({ error: "User already registered" });
+    } else {
+      res.status(500).json({ error: "Internal server error" });
+    }
+  }
 });
-// Move the Google login route here, before error handlers
-app.post("/api/google-login", (req, res) => {
-  const { googleId, tokenId } = req.body;
-  console.log("Received Google ID:", googleId);
-  console.log("Received Token ID:", tokenId);
 
-  // Process the data as needed
-  res.status(200).json({ message: "Google ID received" });
+const io = new Server(server, {
+  cors: {
+    origin: "http://localhost:5173",
+    methods: ["GET", "POST"],
+  },
 });
 
-// const io = new Server(server, {
-//   cors: {
-//       origin: "http://localhost:5173",
-//       methods: ["GET", "POST"],
-//   }
-// })
+io.on("connection", (socket) => {
+  console.log(`Socket user: ${socket.id}`);
 
-// io.on("connection", (socket) => {
-//   console.log(`Socket user: ${socket.id}`);
+  socket.on("send_message", (data) => {
+    console.log(data); // Log the message data
+    addMessage(data);
+    io.emit("new_message", data);
+  });
 
-//   socket.on("send_message", (data) => {
-//     console.log(data); // Log the message data
-//     io.emit('new_message', data);
-//   });
-
-//   socket.on("disconnect", () => {
-//       console.log("user disconnected");
-//   });
-// })
+  socket.on("disconnect", () => {
+    console.log("user disconnected");
+  });
+});
 
 app.use("/bookList", apiRouter);
+app.use("/messages", (req, res) => {
+  res.status(200).send(messages());
+});
+
+setInterval(() => {
+  resetMessages();
+}, 12 * 60 * 60 * 1000 + 30 * 60 * 1000);
 
 // function disconnectAllSockets() {
-//   io.sockets.sockets.forEach(socket => {
+//   io.sockets.sockets.forEach((socket) => {
+//     // console.log(socket.id);
 //     socket.disconnect(true); // `true` will force the disconnection
 //   });
 // }
@@ -108,4 +126,3 @@ app.use(function (err, req, res, next) {
 server.listen(port, () => {
   console.log(`Server started at http://localhost:${port}`);
 });
-
