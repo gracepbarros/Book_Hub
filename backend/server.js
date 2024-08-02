@@ -1,22 +1,19 @@
 import createError from "http-errors";
 import express from "express";
+import session from "express-session";
 import path from "path";
 import cookieParser from "cookie-parser";
 import logger from "morgan";
 import cors from "cors";
-import apiRouter from "./routes/bookRouter.js";
+import bookRouter from "./routes/book.js";
+import userRouter from "./routes/user.js";
 import { Server } from "socket.io";
 import http from "http";
 import { messages, addMessage, resetMessages } from "./messages.js";
-import { PrismaClient } from "@prisma/client";
-const prisma = new PrismaClient();
 
 // Constants
 const port = process.env.PORT || 3000;
-
-// Create http server
 const app = express();
-
 const server = http.createServer(app);
 
 app.use(logger("dev"));
@@ -26,45 +23,29 @@ app.use(cookieParser());
 
 app.use(
   cors({
-    origin: "http://localhost:5173", // Frontend origin (adjust if necessary)
+    origin: "http://localhost:5173",
     credentials: true,
   })
 );
 
+// Set up session middleware
+app.use(session({
+  secret: 'your_session_secret', // Replace with a real secret key
+  resave: false,
+  saveUninitialized: false,
+  cookie: { 
+    secure: process.env.NODE_ENV === "production", // Use secure cookies in production
+    maxAge: 24 * 60 * 60 * 1000 // 24 hours
+  }
+}));
+
 app.use(express.static(path.join("../client/")));
 
-app.post("/api/google-login", async (req, res) => {
-  const { googleId, name, email } = req.body;
-
-  console.log(name);
-
-  try {
-    // Check if the user already exists
-    let user = await prisma.user.findUnique({
-      where: { userID: googleId },
-    });
-
-    if (!user) {
-      // If user does not exist, create a new user
-      user = await prisma.user.create({
-        data: {
-          userID: googleId,
-          name: name,
-          email: email,
-        },
-      });
-    }
-
-    // Respond with the user information
-    res.status(200).json(user);
-  } catch (error) {
-    console.error("Error handling user login:", error);
-    if (error.code === "P2002") {
-      res.status(409).json({ error: "User already registered" });
-    } else {
-      res.status(500).json({ error: "Internal server error" });
-    }
-  }
+// Routes
+app.use("/api", userRouter);
+app.use("/bookList", bookRouter);
+app.use("/messages", (req, res) => {
+  res.status(200).send(messages());
 });
 
 const io = new Server(server, {
@@ -78,7 +59,7 @@ io.on("connection", (socket) => {
   console.log(`Socket user: ${socket.id}`);
 
   socket.on("send_message", (data) => {
-    console.log(data); // Log the message data
+    console.log(data);
     addMessage(data);
     io.emit("new_message", data);
   });
@@ -86,11 +67,6 @@ io.on("connection", (socket) => {
   socket.on("disconnect", () => {
     console.log("user disconnected");
   });
-});
-
-app.use("/bookList", apiRouter);
-app.use("/messages", (req, res) => {
-  res.status(200).send(messages());
 });
 
 setInterval(() => {
@@ -108,18 +84,14 @@ setInterval(() => {
 //   res.send("All sockets disconnected");
 // });
 
-// catch 404 and forward to error handler
+// Error handling
 app.use(function (req, res, next) {
   next(createError(404));
 });
 
-// error handler
 app.use(function (err, req, res, next) {
-  // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get("env") === "development" ? err : {};
-
-  // render the error page
   res.status(err.status || 500);
   res.render("error");
 });

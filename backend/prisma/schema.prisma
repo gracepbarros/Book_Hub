@@ -16,7 +16,7 @@ datasource db {
 model User {
   userID String @id @default(uuid())
   name String
-  email String
+  picture String
   userbooks UserShelf[]
 }
 
@@ -25,7 +25,6 @@ model UserShelf {
   googleID String
   userID String
   category Int
-  progress Int
   favorite Boolean
   user User @relation(fields:[userID], references: [userID])
 

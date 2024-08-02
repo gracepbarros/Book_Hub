@@ -31,14 +31,13 @@ const Chat = () => {
       .catch((err) => console.error("Not able to load the messages: ", err));
   }, []);
 
-  console.log(messages);
-
   function sendMessage() {
     if (currMessage !== "") {
+      console.log(user.picture) // returning undefined
       let msg = {
-        userId: user.googleId,
+        userId: user.userId,
         userMessage: currMessage,
-        userPicture: user.imageUrl,
+        userPicture: user.picture,
       };
       socket.emit("send_message", msg);
       setCurrMessage("");
@@ -70,7 +69,7 @@ const Chat = () => {
                   user.googleId === message.userId ? "chat-local" : "chat-other"
                 }
               >
-                <img src={message.userPicture} alt="" className="rounded-2xl" />
+                <img src={message.userPicture} alt={`${user.name} profile picture from Google account.`} className="rounded-2xl" />
                 <p>{message.userMessage}</p>
               </div>
             );
