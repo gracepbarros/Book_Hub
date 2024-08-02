@@ -20,6 +20,7 @@ const GoogleAuthLogin = () => {
         );
         
         const userInfo = userInfoResponse.data;
+        console.log("userInfo: ", userInfo);
 
         const response = await axios.post(
           "http://localhost:3000/api/google-login",
