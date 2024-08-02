@@ -25,7 +25,7 @@ function formatBookData(rawitem){
         authors,
         description,
         pageCount,
-        cover: imageLinks.thumbnail, };
+        cover: imageLinks ? imageLinks.thumbnail : undefined, };
 }
 
 let redisClient;
