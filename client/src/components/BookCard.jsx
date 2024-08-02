@@ -1,22 +1,86 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import hppicture from "../images/hpbook.jpg";
 import { Menu, Transition } from "@headlessui/react";
 import { MenuButton, MenuItems, MenuItem } from "@headlessui/react";
+import axios from "axios";
 
-const BookCard = () => {
+const BookCard = ({ googleId, userId }) => {
   const [currentMood, setCurrentMood] = useState("Add to Shelf");
   const [buttonColor, setButtonColor] = useState("#f8f9fa");
+  const [bookDetails, setBookDetails] = useState(null);
+
+  useEffect(() => {
+    const fetchBookDetails = async () => {
+      try {
+        const response = await axios.get(
+          `http://localhost:3000/bookList/${googleId}`
+        );
+        setBookDetails(response.data);
+      } catch (error) {
+        console.error("Error fetching book details:", error);
+      }
+    };
+
+    fetchBookDetails();
+  }, [googleId]);
 
   const handleSelect = (mood, color) => {
     setCurrentMood(mood);
     setButtonColor(color);
+
+    const categoryMap = {
+      Unread: 1,
+      Reading: 2,
+      Read: 3,
+      Abandoned: 4,
+    };
+
+    handleShelfUpdate(categoryMap[mood], false);
   };
 
+  const handleShelfUpdate = async (category, isFavorite) => {
+    try {
+      const response = await axios.post("/api/update-shelf", {
+        googleId,
+        userId,
+        category,
+        isFavorite,
+      });
+
+      if (response.status !== 200) {
+        throw new Error("Failed to update shelf");
+      }
+
+      // Optionally, you can update the local state or show a success message
+    } catch (error) {
+      console.error("Error updating shelf:", error);
+      // Optionally, show an error message to the user
+    }
+  };
+
+  const removeHtmlTags = (html) => {
+    if (!html) return "";
+    const tmp = document.createElement("DIV");
+    tmp.innerHTML = html;
+    return tmp.textContent || tmp.innerText || "";
+  };
+
+  if (!bookDetails) {
+    return <div>Loading...</div>;
+  }
+
   return (
-    <div className="bookcard">
-      <img className="chunk1" src={hppicture} alt="Book Cover" />
+    <div className="bookcard flex flex-col md:flex-row w-full max-w-xs md:max-w-4xl mx-auto bg-white rounded-lg shadow-lg overflow-hidden max-h-[80vh] md:max-h-[600px] overflow-y-auto">
+      <img
+        className="chunk1"
+        src={bookDetails.cover || hppicture}
+        alt="Book Cover"
+      />
       <div className="chunk2 irishgrover">
-        <p className="flex justify-center items-center">
+        <p
+          className="flex justify-center items-center"
+          onClick={() => handleShelfUpdate(0, true)}
+        >
           Add to{" "}
           <span className="material-symbols-outlined px-2 text-red-500">
             favorite
@@ -47,9 +111,11 @@ const BookCard = () => {
                 <MenuItem>
                   {({ active }) => (
                     <button
-                      className={`${
-                        active ? "bgbeige" : ""
-                      } group flex rounded-md items-center w-full px-2 py-2 text-sm`}
+                      className={`
+                      bg-[var(--beige)] text-white
+                      group flex rounded-md items-center w-full px-2 py-2 text-sm
+                      ${active ? "opacity-80" : ""}
+                    `}
                       onClick={() => handleSelect("Unread", "var(--beige)")}
                     >
                       Unread
@@ -59,9 +125,11 @@ const BookCard = () => {
                 <MenuItem>
                   {({ active }) => (
                     <button
-                      className={`${
-                        active ? "bgturquoise" : ""
-                      } group flex rounded-md items-center w-full px-2 py-2 text-sm`}
+                      className={`
+                      bg-[var(--turquoise)] text-white
+                      group flex rounded-md items-center w-full px-2 py-2 text-sm
+                      ${active ? "opacity-80" : ""}
+                    `}
                       onClick={() =>
                         handleSelect("Reading", "var(--turquoise)")
                       }
@@ -73,9 +141,11 @@ const BookCard = () => {
                 <MenuItem>
                   {({ active }) => (
                     <button
-                      className={`${
-                        active ? "bgorange" : ""
-                      } group flex rounded-md items-center w-full px-2 py-2 text-sm`}
+                      className={`
+                       bg-[var(--orange)] text-white
+                       group flex rounded-md items-center w-full px-2 py-2 text-sm
+                       ${active ? "opacity-80" : ""}
+                     `}
                       onClick={() => handleSelect("Read", "var(--orange)")}
                     >
                       Read
@@ -85,9 +155,11 @@ const BookCard = () => {
                 <MenuItem>
                   {({ active }) => (
                     <button
-                      className={`${
-                        active ? "bgbrown" : ""
-                      } group flex rounded-md items-center w-full px-2 py-2 text-sm`}
+                      className={`
+                      bg-[var(--brown)] text-white
+                      group flex rounded-md items-center w-full px-2 py-2 text-sm
+                      ${active ? "opacity-80" : ""}
+                    `}
                       onClick={() => handleSelect("Abandoned", "var(--brown)")}
                     >
                       Abandoned
@@ -100,15 +172,14 @@ const BookCard = () => {
         </Menu>
       </div>
       <div className="chunk3">
-        <p className="irishgrover textorange text-2xl">A title name</p>
-        <p>Author(s): Name</p>
+        <p className="irishgrover textorange text-2xl">{bookDetails.title}</p>
+        <p>Author(s): {bookDetails.authors?.join(", ") || "Unknown"}</p>
         <p>Description:</p>
-        <p>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Aperiam totam
-          dignissimos aliquam magni! Distinctio doloribus facere hic, maxime
-          possimus placeat laudantium dolorum assumenda, cumque, excepturi quo
-          necessitatibus omnis soluta doloremque.
+        <p className="text-justify">
+          {removeHtmlTags(bookDetails.description) ||
+            "No description available."}
         </p>
+        {bookDetails.pageCount && <p>Pages: {bookDetails.pageCount}</p>}
       </div>
     </div>
   );
