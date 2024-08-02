@@ -1,61 +1,58 @@
-import { GoogleLogin } from "react-google-login";
+import { useGoogleLogin } from '@react-oauth/google';
 import axios from "axios";
 import { useAuth } from "../AuthContext";
-
-const clientId = import.meta.env.VITE_GOOGLE_CLIENT_ID;
 
 const GoogleAuthLogin = () => {
   const { login } = useAuth();
 
-  const onSuccess = async (res) => {
-    console.log("Login Success! Current user: ", res.profileObj);
+  const handleGoogleLogin = useGoogleLogin({
+    onSuccess: async (codeResponse) => {
+      console.log("Login Success! Code response: ", codeResponse);
 
-    const { profileObj, tokenId } = res;
-    const { googleId, name, email } = profileObj;
+      try {
+        const userInfoResponse = await axios.get(
+          'https://www.googleapis.com/oauth2/v3/userinfo',
+          {
+            headers: {
+              Authorization: `Bearer ${codeResponse.access_token}`,
+            },
+          }
+        );
+        
+        const userInfo = userInfoResponse.data;
+        console.log("User info:", userInfo);
 
-    try {
-      const response = await axios.post(
-        "http://localhost:3000/api/google-login",
-        { googleId, name, email, tokenId },
-        {
-          headers: {
-            "Content-Type": "application/json",
+        // Send the token to your backend
+        const response = await axios.post(
+          "http://localhost:3000/api/google-login",
+          { 
+            googleId: userInfo.sub,
+            tokenId: codeResponse.access_token 
           },
-        }
-      );
-      console.log(response.data.message);
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+        console.log(response.data.message);
 
-      // Update the auth context
-      login(profileObj);
-    } catch (error) {
-      console.error("Error sending Google ID to backend:", error);
-    }
-  };
-
-  const onFailure = (res) => {
-    console.log("Login Failed! res: ", res);
-  };
+        // Update the auth context
+        login(userInfo);
+      } catch (error) {
+        console.error("Error during Google login:", error);
+      }
+    },
+    onError: (error) => console.log('Login Failed: ', error)
+  });
 
   return (
-    <div>
-      <GoogleLogin
-        clientId={clientId}
-        buttonText="Login"
-        onSuccess={onSuccess}
-        onFailure={onFailure}
-        cookiePolicy={`single_host_origin`}
-        isSignedIn={true}
-        render={(renderProps) => (
-          <button
-            onClick={renderProps.onClick}
-            disabled={renderProps.disabled}
-            className="mt-8 w-full bg-orange-500 text-white px-3 py-1 rounded-lg hover:bg-orange-600"
-          >
-            Login
-          </button>
-        )}
-      />
-    </div>
+    <button
+      onClick={() => handleGoogleLogin()}
+      className="mt-8 w-full bg-orange-500 text-white px-3 py-1 rounded-lg hover:bg-orange-600"
+    >
+      Login
+    </button>
   );
 };
 

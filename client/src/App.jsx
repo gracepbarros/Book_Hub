@@ -6,10 +6,14 @@ import LoginPage from "./pages/LoginPage.jsx";
 import BooksPage from "./pages/BooksPage.jsx";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "./AuthContext";
+import { GoogleOAuthProvider } from '@react-oauth/google';
 import PrivateRoute from "./components/PrivateRoute"; // Import the PrivateRoute component
+
+const clientId = import.meta.env.VITE_GOOGLE_CLIENT_ID;
 
 function App() {
   return (
+    <GoogleOAuthProvider clientId={clientId}>
     <AuthProvider>
 
       <Router>
@@ -27,6 +31,7 @@ function App() {
       </Router>
 
     </AuthProvider>
+    </GoogleOAuthProvider>
   );
 }
 
