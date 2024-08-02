@@ -162,9 +162,11 @@
   grid-area: chunk2;
   display: flex;
   flex-direction: column;
+  align-items: space-between;
 }
 .chunk3 {
   grid-area: chunk3;
+  gap: 10px;
 }
 
 .chunk2 p {
@@ -175,6 +177,11 @@
 .chunk2,
 .chunk3 {
   margin: auto;
+}
+
+.userName{
+  padding: 0px;
+  margin-top: 5px;
 }
 
 @media (min-width: 840px) {

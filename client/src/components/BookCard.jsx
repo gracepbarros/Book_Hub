@@ -1,32 +1,55 @@
 import React, { useState, useEffect } from "react";
-import hppicture from "../images/hpbook.jpg";
+import { useAuth } from "../AuthContext";
 import { Menu, Transition } from "@headlessui/react";
 import { MenuButton, MenuItems, MenuItem } from "@headlessui/react";
+import { Link } from "react-router-dom";
 import axios from "axios";
 
-const BookCard = ({ googleId, userId }) => {
+const BookCard = ({ book }) => {
+  const { user } = useAuth();
+
   const [currentMood, setCurrentMood] = useState("Add to Shelf");
   const [buttonColor, setButtonColor] = useState("#f8f9fa");
-  const [bookDetails, setBookDetails] = useState(null);
+  const [isFavorite, setIsFavorite] = useState(false);
+  const [favText, setFavText] = useState("Add to ");
 
   useEffect(() => {
-    const fetchBookDetails = async () => {
-      try {
-        const response = await axios.get(
-          `http://localhost:3000/bookList/${googleId}`
-        );
-        setBookDetails(response.data);
-      } catch (error) {
-        console.error("Error fetching book details:", error);
-      }
+    if(isFavorite){
+      setFavText("Remove from ")
+    } else {
+    setFavText("Add to ")
     };
+  }, [isFavorite]);
 
-    fetchBookDetails();
-  }, [googleId]);
+  const fetchShelf = async () => {
+    try {
+      const response = await axios.get(`http://localhost:3000/shelf?googleID=${book.googleId}&userID=${user.userID}`);
+      
+      if (response.status === 200 && response.data) {
+        const { category, favorite } = response.data;
 
-  const handleSelect = (mood, color) => {
-    setCurrentMood(mood);
-    setButtonColor(color);
+        const categoryMap = {
+          1 : {name: "Unread", color: "var(--beige)"},
+          2 : {name: "Reading", color : "var(--turquoise)"},
+          3 : {name: "Read", color: "var(--orange)"},
+          4 : {name: "Abandoned", color: "var(--brown)"},
+        };
+
+        if (category !== 0) {
+          setCurrentMood(categoryMap[category].name);
+          setButtonColor(categoryMap[category].color);
+        }
+        setIsFavorite(favorite);
+
+        } else {
+          console.log("No shelf data found or unexpected response format");
+        }
+    } catch (error) {
+      console.error("Error fetching shelf: ", error);
+    }
+  };
+  
+  const moodToInt = (mood) => {
 
     const categoryMap = {
       Unread: 1,
@@ -35,26 +58,38 @@ const BookCard = ({ googleId, userId }) => {
       Abandoned: 4,
     };
 
-    handleShelfUpdate(categoryMap[mood], false);
+    return categoryMap[mood] ? categoryMap[mood] : 0;
   };
 
-  const handleShelfUpdate = async (category, isFavorite) => {
+  const handleFavorite = () => {
+    const newStatus = !isFavorite;
+    setIsFavorite(newStatus);
+    handleShelfUpdate(moodToInt(currentMood), newStatus);
+  };
+
+  const handleSelect = (mood, color) => {
+    setCurrentMood(mood);
+    setButtonColor(color);
+
+    handleShelfUpdate(moodToInt(currentMood), isFavorite);
+  };
+
+  const handleShelfUpdate = async (category, favorite) => {
+    const body = {
+      googleID: book.googleId,
+      userID: user.userID,
+      category,
+      favorite,
+    };
+
     try {
-      const response = await axios.post("/api/update-shelf", {
-        googleId,
-        userId,
-        category,
-        isFavorite,
-      });
+      const response = await axios.post("http://localhost:3000/shelf", body);
 
       if (response.status !== 200) {
         throw new Error("Failed to update shelf");
       }
-
-      // Optionally, you can update the local state or show a success message
     } catch (error) {
-      console.error("Error updating shelf:", error);
-      // Optionally, show an error message to the user
+      console.error("Error updating shelf: ", error);
     }
   };
 
@@ -65,27 +100,58 @@ const BookCard = ({ googleId, userId }) => {
     return tmp.textContent || tmp.innerText || "";
   };
 
-  if (!bookDetails) {
+  if (!book) {
     return <div>Loading...</div>;
   }
 
+  if (!user) {
+    return(
+      <div className="bookcard flex flex-col md:flex-row w-full max-w-xs md:max-w-4xl mx-auto bg-white rounded-lg shadow-lg overflow-hidden max-h-[80vh] md:max-h-[600px] overflow-y-auto">
+        <img
+          className="chunk1"
+          src={book.cover || "https://via.placeholder.com/128x196"}
+          alt="Book Cover"
+        />
+        <div className="chunk2 py-5 border-solid-black-2">
+          <Link to="/login">
+            <button className="mt-8 w-full bg-orange-500 text-white px-3 py-1 rounded-lg hover:bg-orange-600"> 
+              Log in to use shelf features
+            </button>
+          </Link>
+        </div>
+        <div className="chunk3 textbrown">
+          <p className="irishgrover textorange text-2xl">{book.title}</p>
+          <p><em className="textorange">Author(s):</em> {book.authors?.join(", ") || "Unknown"}</p>
+          <p className="textorange">Description:</p>
+          <p className="text-justify">
+            {removeHtmlTags(book.description) ||
+              "No description available."}
+          </p>
+          {book.pageCount && <p><em className="textorange">Page count:</em> {book.pageCount}</p>}
+        </div>
+      </div>
+    ) 
+  } else {
+    useEffect(() => {
+      fetchShelf();
+    }, []);
+  }
   return (
     <div className="bookcard flex flex-col md:flex-row w-full max-w-xs md:max-w-4xl mx-auto bg-white rounded-lg shadow-lg overflow-hidden max-h-[80vh] md:max-h-[600px] overflow-y-auto">
       <img
         className="chunk1"
-        src={bookDetails.cover || hppicture}
+        src={book.cover || "https://via.placeholder.com/128x196"}
         alt="Book Cover"
       />
       <div className="chunk2 irishgrover">
-        <p
-          className="flex justify-center items-center"
-          onClick={() => handleShelfUpdate(0, true)}
-        >
-          Add to{" "}
-          <span className="material-symbols-outlined px-2 text-red-500">
+        <button
+          className="flex justify-center items-center textwine pb-5"
+          onClick={() => handleFavorite()}>
+          {favText} {" "}
+          <span className="material-symbols-outlined px-2">
             favorite
           </span>
-        </p>
+        </button>
 
         <Menu as="div" className="relative inline-block text-left">
           <MenuButton
@@ -108,6 +174,20 @@ const BookCard = ({ googleId, userId }) => {
           >
             <MenuItems className="absolute right-0 w-56 mt-2 origin-top-right bg-white divide-y divide-gray-100 rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
               <div className="px-1 py-1">
+              <MenuItem>
+                  {({ active }) => (
+                    <button
+                      className={`
+                      bg-[rgb(248, 249, 250)]
+                      group flex rounded-md items-center w-full px-2 py-2 text-sm
+                      ${active ? "opacity-80" : ""}
+                    `}
+                      onClick={() => handleSelect("Null", "rgb(248, 249, 250)")}
+                    >
+                      None
+                    </button>
+                  )}
+                </MenuItem>
                 <MenuItem>
                   {({ active }) => (
                     <button
@@ -171,18 +251,18 @@ const BookCard = ({ googleId, userId }) => {
           </Transition>
         </Menu>
       </div>
-      <div className="chunk3">
-        <p className="irishgrover textorange text-2xl">{bookDetails.title}</p>
-        <p>Author(s): {bookDetails.authors?.join(", ") || "Unknown"}</p>
-        <p>Description:</p>
-        <p className="text-justify">
-          {removeHtmlTags(bookDetails.description) ||
-            "No description available."}
-        </p>
-        {bookDetails.pageCount && <p>Pages: {bookDetails.pageCount}</p>}
+      <div className="chunk3 textbrown">
+          <p className="irishgrover textorange text-2xl">{book.title}</p>
+          <p><em className="textorange">Author(s):</em> {book.authors?.join(", ") || "Unknown"}</p>
+          <p className="textorange">Description:</p>
+          <p className="text-justify">
+            {removeHtmlTags(book.description) ||
+              "No description available."}
+          </p>
+          {book.pageCount && <p><em className="textorange">Page count:</em> {book.pageCount}</p>}
       </div>
     </div>
-  );
+  ); 
 };
 
 export default BookCard;

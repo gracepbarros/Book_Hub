@@ -1,6 +1,5 @@
 import React from "react";
 import Home from "./pages/Home.jsx";
-import ProfilePage from "./pages/ProfilePage.jsx";
 import ChatPage from "./pages/ChatPage.jsx";
 import LoginPage from "./pages/LoginPage.jsx";
 import BooksPage from "./pages/BooksPage.jsx";
@@ -23,7 +22,6 @@ function App() {
           <Route path="/" element={<Home />} />
           {/* Protected routes */}
           <Route element={<PrivateRoute />}>
-            <Route path="/profile" element={<ProfilePage />} />
             <Route path="/chat" element={<ChatPage />} />
             <Route path="/books" element={<BooksPage />} />
           </Route>

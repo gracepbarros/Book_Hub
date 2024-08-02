@@ -33,7 +33,6 @@ const Chat = () => {
 
   function sendMessage() {
     if (currMessage !== "") {
-      console.log(user.picture) // returning undefined
       let msg = {
         userId: user.userId,
         userMessage: currMessage,
@@ -70,7 +69,7 @@ const Chat = () => {
                 }
               >
                 <img src={message.userPicture} alt={`${user.name} profile picture from Google account.`} className="rounded-2xl" />
-                <p>{message.userMessage}</p>
+                <p>{message.userMessage}</p> 
               </div>
             );
           })}

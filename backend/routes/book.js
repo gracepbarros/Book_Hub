@@ -1,6 +1,7 @@
 import express from "express";
 import axios from "axios";
 import dotenv from "dotenv";
+import redis from "redis";
 
 dotenv.config();
 
@@ -24,11 +25,47 @@ function formatBookData(rawitem){
         authors,
         description,
         pageCount,
-        cover: imageLinks.thumbnail, };
+        cover: imageLinks ? imageLinks.thumbnail : undefined, };
+}
+
+let redisClient;
+
+(async () => {
+  redisClient = redis.createClient();
+
+  try{
+    await redisClient.connect();
+  }
+  catch(err){
+    console.error("Not possible to connect to redis: ", err);
+  }
+})();
+
+async function isBookListCached(req, res, next){
+  const query = req.query.q || 'Harry Potter';
+  const page = req.query.page || 1;
+
+  let books;
+
+  try{
+    const cacheData = await redisClient.get(`${query}${page}`);
+    if(cacheData){
+      books = JSON.parse(cacheData);
+      res.send({totalItems: books.length, items: books})
+      console.log("from redis");
+    }
+    else{
+      next();
+    }
+  }
+  catch(err){
+    console.error("Not possible to process data in cache: ", err);
+    res.status(404);
+  }
 }
 
 // Book search - get a list of books
-router.get("/", async (req, res) => {
+router.get("/", isBookListCached, async (req, res) => {
     try {
       const query = req.query.q || 'Harry Potter';
 
@@ -39,7 +76,7 @@ router.get("/", async (req, res) => {
       const limit = req.query.limit || 18;
       const page = req.query.page || 1;
       const response = await axios.get(`${API_URL}?q=${query}&limit=${limit}&page=${page}&key=${API_KEY}`);
-      console.log("Test of response: ",response.data.items)
+      console.log("Response length: ",response.data.items.length)
       const { items, totalItems } = response.data;
         
       if (totalItems == 0) {
@@ -52,11 +89,13 @@ router.get("/", async (req, res) => {
         };
       });
 
-      res.json(formattedItems);
+      await redisClient.set(`${query}${page}`, JSON.stringify(formattedItems));
+
+      res.json({totalItems, items: formattedItems});
         
     } catch (error) {
-      console.error('Failed to Fetch books.');
       res.status(500).send('Error on API searching');
+      console.error('Failed to Fetch books with error: ', error);
     }
 
 });
