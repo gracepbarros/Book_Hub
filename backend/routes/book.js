@@ -1,6 +1,7 @@
 import express from "express";
 import axios from "axios";
 import dotenv from "dotenv";
+import redis from "redis";
 
 dotenv.config();
 
@@ -27,8 +28,44 @@ function formatBookData(rawitem){
         cover: imageLinks.thumbnail, };
 }
 
+let redisClient;
+
+(async () => {
+  redisClient = redis.createClient();
+
+  try{
+    await redisClient.connect();
+  }
+  catch(err){
+    console.error("Not possible to connect to redis: ", err);
+  }
+})();
+
+async function isBookListCached(req, res, next){
+  const query = req.query.q || 'Harry Potter';
+  const page = req.query.page || 1;
+
+  let books;
+
+  try{
+    const cacheData = await redisClient.get(`${query}${page}`);
+    if(cacheData){
+      books = JSON.parse(cacheData);
+      res.send({totalItems: books.length, items: books})
+      console.log("from redis");
+    }
+    else{
+      next();
+    }
+  }
+  catch(err){
+    console.error("Not possible to process data in cache: ", err);
+    res.status(404);
+  }
+}
+
 // Book search - get a list of books
-router.get("/", async (req, res) => {
+router.get("/", isBookListCached, async (req, res) => {
     try {
       const query = req.query.q || 'Harry Potter';
 
@@ -51,6 +88,8 @@ router.get("/", async (req, res) => {
             ...formatBookData(item),
         };
       });
+
+      await redisClient.set(`${query}${page}`, JSON.stringify(formattedItems));
 
       res.json({totalItems, items: formattedItems});
         
