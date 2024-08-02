@@ -27,7 +27,7 @@ const BookCard = ({ googleId, book }) => {
   }, [googleId]);
 
   const handleSelect = (mood, color) => {
-    setCurrentMood(mood);
+    mood === "Null" ? setCurrentMood("Add to book shelf") : setCurrentMood(mood);
     setButtonColor(color);
 
     const categoryMap = {
@@ -114,6 +114,20 @@ const BookCard = ({ googleId, book }) => {
           >
             <MenuItems className="absolute right-0 w-56 mt-2 origin-top-right bg-white divide-y divide-gray-100 rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
               <div className="px-1 py-1">
+              <MenuItem>
+                  {({ active }) => (
+                    <button
+                      className={`
+                      bg-[rgb(248, 249, 250)]
+                      group flex rounded-md items-center w-full px-2 py-2 text-sm
+                      ${active ? "opacity-80" : ""}
+                    `}
+                      onClick={() => handleSelect("Null", "rgb(248, 249, 250)")}
+                    >
+                      None
+                    </button>
+                  )}
+                </MenuItem>
                 <MenuItem>
                   {({ active }) => (
                     <button

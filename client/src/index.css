@@ -177,6 +177,11 @@
   margin: auto;
 }
 
+.userName{
+  padding: 0px;
+  margin-top: 5px;
+}
+
 @media (min-width: 840px) {
   .homepresentation {
     width: 80%;
