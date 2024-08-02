@@ -26,9 +26,9 @@ const Chat = () => {
 
   useEffect(() => {
     fetch("http://localhost:3000/messages")
-      .then(response => response.json())
-      .then(data => setMessages(data))
-      .catch(err => console.error("Not able to load the messages: ", err));
+      .then((response) => response.json())
+      .then((data) => setMessages(data))
+      .catch((err) => console.error("Not able to load the messages: ", err));
   }, []);
 
   console.log(messages);
@@ -38,7 +38,7 @@ const Chat = () => {
       let msg = {
         userId: user.googleId,
         userMessage: currMessage,
-        userPicture: user.imageUrl
+        userPicture: user.imageUrl,
       };
       socket.emit("send_message", msg);
       setCurrMessage("");
@@ -51,18 +51,18 @@ const Chat = () => {
         setMessages((oldMessages) => [...oldMessages, data]);
       };
 
-      socket.on('new_message', handleMessage);
+      socket.on("new_message", handleMessage);
 
       return () => {
-        socket.off('new_message', handleMessage);
+        socket.off("new_message", handleMessage);
       };
     }
   }, [socket]);
 
   return (
     <div className="flex flex-col mx-auto w-[100%] h-[80vh] chatlayout">
-      {messages.length !== 0 ?
-        <div className="w-full h-[80vh]">
+      {messages.length !== 0 ? (
+        <div className="flex-grow overflow-y-auto p-4">
           {messages.map((message) => {
             return (
               <div
@@ -70,16 +70,15 @@ const Chat = () => {
                   user.googleId === message.userId ? "chat-local" : "chat-other"
                 }
               >
-                <img src={message.userPicture} alt="" />
+                <img src={message.userPicture} alt="" className="rounded-2xl" />
                 <p>{message.userMessage}</p>
               </div>
             );
           })}
         </div>
-        :
-        <div className="w-full h-[80vh]">
-        </div>
-      }
+      ) : (
+        <div className="w-full h-[80vh]"></div>
+      )}
       <div className="flex w-full h-[10vh] mb-2">
         <textarea
           className="w-[90%] border-2 border-orange-500 rounded-lg"
@@ -87,7 +86,7 @@ const Chat = () => {
           rows="3"
           onChange={(e) => setCurrMessage(e.target.value)}
           onKeyDown={(e) => {
-            if (e.key === 'Enter') {
+            if (e.key === "Enter") {
               e.preventDefault();
               sendMessage();
             }
