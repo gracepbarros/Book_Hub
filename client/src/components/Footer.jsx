@@ -2,8 +2,8 @@ const Footer = () => {
   const date = new Date();
   const year = date.getFullYear();
   return (
-    <div className="w-full h-16 mx-auto text-center bg-black text-turquoise-500  flex justify-center items-center text-lg border-y-4 border-orange-500">
-      <p className="text-orange-500">
+    <div className="w-full h-16 mx-auto text-center bgturquoise flex justify-center items-center text-lg">
+      <p className="textwhite text-bold">
         Copyright &copy; {year}:{" "}
         <a
           href="https://github.com/gracepbarros"

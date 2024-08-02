@@ -27,7 +27,7 @@ export const AuthProvider = ({ children }) => {
   const login = async (userData) => {
     setUser(userData);
     try {
-      await axios.post("http://localhost:3000/api/login", userData, { withCredentials: true });
+      await axios.post("http://localhost:3000/api/google-login", userData, { withCredentials: true });
     } catch (error) {
       console.error("Error setting user session:", error);
     }
