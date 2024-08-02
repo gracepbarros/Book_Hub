@@ -1,6 +1,7 @@
 import Nav from "../components/Nav";
 import Gradient from "../components/Gradient";
 import Login from "../components/Login";
+import Footer from "../components/Footer";
 
 function LoginPage() {
   return (
@@ -9,6 +10,7 @@ function LoginPage() {
       <Gradient />
       <Login />
       <Gradient />
+      <Footer />
     </div>
   );
 }

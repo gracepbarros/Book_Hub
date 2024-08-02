@@ -1,18 +1,20 @@
-// import "../styles/Books.css";
-// import "../styles/Main.css";
 import Nav from "../components/Nav";
 import Gradient from "../components/Gradient";
-import Books from "../components/Books";
-import Main from "../components/Main";
+import BooksGradient from "../components/BooksGradient";
+import Footer from "../components/Footer";
 
 function BooksPage() {
   return (
     <div>
       <Nav />
       <Gradient />
-      <Books />
-      <Main />
+      <BooksGradient color="wine" category="Favorite" />
+      <BooksGradient color="beige" category="Unread" />
+      <BooksGradient color="turquoise" category="Reading" />
+      <BooksGradient color="orange" category="Read" />
+      <BooksGradient color="brown" category="Abbandoned" />
       <Gradient />
+      <Footer />
     </div>
   );
 }

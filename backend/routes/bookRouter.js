@@ -30,14 +30,15 @@ function formatBookData(rawitem){
 // Book search - get a list of books
 router.get("/", async (req, res) => {
     try {
-      const query = req.query.q;
+      const query = req.query.q || 'Harry Potter';
 
       if (!query) {
-        res.status(400).send('Missing query parameter');
+        console.error('No query provided. Default search "Harry Potter" was used.');
       }
     
-      const limit = req.query.limit || 10;
-      const response = await axios.get(`${API_URL}?q=${query}&limit=${limit}&key=${API_KEY}`);
+      const limit = req.query.limit || 18;
+      const page = req.query.page || 1;
+      const response = await axios.get(`${API_URL}?q=${query}&limit=${limit}&page=${page}&key=${API_KEY}`);
       console.log("Test of response: ",response.data.items)
       const { items, totalItems } = response.data;
         

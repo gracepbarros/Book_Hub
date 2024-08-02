@@ -1,10 +1,11 @@
 @import url("https://fonts.googleapis.com/css2?family=Irish+Grover&display=swap");
 
 :root {
-  --beige: rgb(206, 191, 148);
-  --orange: rgb(252, 113, 56);
-  --turquoise: rgb(163, 231, 216);
-  --brown: rgb(107, 92, 73);
+  --beige: #cebf94;
+  --orange: #fc7138;
+  --turquoise: #a3e7d8;
+  --brown: #6b5c49;
+  --wine: #c80b0b;
   --white: #ffffff;
   --lightyellow: #ffb300;
   --font-size: 1.3rem;
@@ -26,6 +27,11 @@
   -webkit-text-stroke-color: var(--beige);
 }
 
+.textstroke-w {
+  -webkit-text-stroke-width: 2px;
+  -webkit-text-stroke-color: var(--white);
+}
+
 .bgbeige {
   background-color: var(--beige);
 }
@@ -40,6 +46,26 @@
 
 .bgbrown {
   background-color: var(--brown);
+}
+
+.bgwine {
+  background-color: var(--wine);
+}
+
+.bghome {
+  background-image: url("images/pattern.svg");
+  background-repeat: repeat;
+  background-size: cover;
+  animation: moveBackground 2s linear infinite;
+}
+
+@keyframes moveBackground {
+  0% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: 0 100%;
+  }
 }
 
 .textbeige {
@@ -58,9 +84,18 @@
   color: var(--brown);
 }
 
+.textwine {
+  color: var(--wine);
+}
+
+.textwhite {
+  color: var(--white);
+}
+
 .translate-center {
   transform: translate(-50%, -50%);
 }
+
 /*chat css */
 
 .chat-sendBtn {
@@ -144,7 +179,7 @@
 
 @media (min-width: 840px) {
   .homepresentation {
-    width: 50%;
+    width: 80%;
   }
   .chatlayout {
     width: 80%;
