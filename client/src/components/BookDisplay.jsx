@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import BookCard from "./BookCard";
 import Modal from "./Modal";
 
-const BookDisplay = ({ book, userId }) => {
+const BookDisplay = ({ book}) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const openCard = () => {
@@ -30,7 +30,7 @@ const BookDisplay = ({ book, userId }) => {
       </div>
       {isModalOpen && (
         <Modal onClose={closeCard}>
-          <BookCard googleId={book.googleId} userId={userId} />
+          <BookCard googleId={book.googleId} />
         </Modal>
       )}
     </>

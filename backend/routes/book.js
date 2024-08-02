@@ -39,7 +39,7 @@ router.get("/", async (req, res) => {
       const limit = req.query.limit || 18;
       const page = req.query.page || 1;
       const response = await axios.get(`${API_URL}?q=${query}&limit=${limit}&page=${page}&key=${API_KEY}`);
-      console.log("Test of response: ",response.data.items)
+      console.log("Response length: ",response.data.items.length)
       const { items, totalItems } = response.data;
         
       if (totalItems == 0) {
@@ -52,11 +52,11 @@ router.get("/", async (req, res) => {
         };
       });
 
-      res.json(formattedItems);
+      res.json({totalItems, items: formattedItems});
         
     } catch (error) {
-      console.error('Failed to Fetch books.');
       res.status(500).send('Error on API searching');
+      console.error('Failed to Fetch books with error: ', error);
     }
 
 });

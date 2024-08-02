@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from "react";
-import hppicture from "../images/hpbook.jpg";
+import { useAuth } from "../AuthContext";
 import { Menu, Transition } from "@headlessui/react";
 import { MenuButton, MenuItems, MenuItem } from "@headlessui/react";
 import axios from "axios";
 
-const BookCard = ({ googleId, userId }) => {
+const BookCard = ({ googleId, book }) => {
+  const { user } = useAuth();
+
   const [currentMood, setCurrentMood] = useState("Add to Shelf");
   const [buttonColor, setButtonColor] = useState("#f8f9fa");
   const [bookDetails, setBookDetails] = useState(null);
@@ -29,6 +31,7 @@ const BookCard = ({ googleId, userId }) => {
     setButtonColor(color);
 
     const categoryMap = {
+      Null: 0,
       Unread: 1,
       Reading: 2,
       Read: 3,
@@ -38,23 +41,26 @@ const BookCard = ({ googleId, userId }) => {
     handleShelfUpdate(categoryMap[mood], false);
   };
 
-  const handleShelfUpdate = async (category, isFavorite) => {
+  const handleShelfUpdate = async (category, favorite) => {
+    console.log("UserID: ",  user.userID);
+    console.log("UserID type: ", typeof user.userID);
+
+    const body = {
+      googleID: googleId,
+      userID: user.userID,
+      category,
+      favorite,
+    };
+
+    console.log("Body: ", body);
     try {
-      const response = await axios.post("/api/update-shelf", {
-        googleId,
-        userId,
-        category,
-        isFavorite,
-      });
+      const response = await axios.post("http://localhost:3000/shelf", body);
 
       if (response.status !== 200) {
         throw new Error("Failed to update shelf");
       }
-
-      // Optionally, you can update the local state or show a success message
     } catch (error) {
-      console.error("Error updating shelf:", error);
-      // Optionally, show an error message to the user
+      console.error("Error updating shelf: ", error);
     }
   };
 
@@ -73,7 +79,7 @@ const BookCard = ({ googleId, userId }) => {
     <div className="bookcard flex flex-col md:flex-row w-full max-w-xs md:max-w-4xl mx-auto bg-white rounded-lg shadow-lg overflow-hidden max-h-[80vh] md:max-h-[600px] overflow-y-auto">
       <img
         className="chunk1"
-        src={bookDetails.cover || hppicture}
+        src={bookDetails.cover || "https://via.placeholder.com/128x196"}
         alt="Book Cover"
       />
       <div className="chunk2 irishgrover">
@@ -175,7 +181,7 @@ const BookCard = ({ googleId, userId }) => {
         <p className="irishgrover textorange text-2xl">{bookDetails.title}</p>
         <p>Author(s): {bookDetails.authors?.join(", ") || "Unknown"}</p>
         <p>Description:</p>
-        <p className="text-justify">
+        <p className="text-justify textbrown">
           {removeHtmlTags(bookDetails.description) ||
             "No description available."}
         </p>

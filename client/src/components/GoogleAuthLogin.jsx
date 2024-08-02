@@ -21,7 +21,6 @@ const GoogleAuthLogin = () => {
         
         const userInfo = userInfoResponse.data;
 
-        // Send the token to backend
         const response = await axios.post(
           "http://localhost:3000/api/google-login",
           { 

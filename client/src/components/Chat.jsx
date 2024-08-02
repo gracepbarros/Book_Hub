@@ -33,7 +33,6 @@ const Chat = () => {
 
   function sendMessage() {
     if (currMessage !== "") {
-      console.log(user.picture) // returning undefined
       let msg = {
         userId: user.userId,
         userMessage: currMessage,

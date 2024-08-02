@@ -39,14 +39,16 @@ const BookList = () => {
   };
 
   useEffect(() => {
+    console.log("Current page: ", page);
     const fetchBooks = async () => {
       try {
+        const index = page == 1 ? 0 : (page - 1) * columns * 3;
+
         const response = await axios.get(
-          `http://localhost:3000/bookList?q=${searchQuery}&page=${page}&limit=${
-            columns * 3
-          }`
+          `http://localhost:3000/bookList?q=${searchQuery}&startIndex=${index}&maxResults=${columns * 3}`
         );
-        setBooks(response.data);
+        console.log("Response data.totalitems: ", response.data.totalItems);
+        setBooks(response.data.items);
       } catch (error) {
         console.error("Error fetching books:", error);
       }
@@ -100,7 +102,7 @@ const BookList = () => {
 
       <div className={`grid grid-rows-3 grid-cols-${columns} gap-10 mx-5`}>
         {books.map((book) => (
-          <BookDisplay key={book.id} book={book} />
+          <BookDisplay key={book.googleId} book={book}/>
         ))}
       </div>
 

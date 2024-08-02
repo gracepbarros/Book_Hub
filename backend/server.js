@@ -7,6 +7,7 @@ import logger from "morgan";
 import cors from "cors";
 import bookRouter from "./routes/book.js";
 import userRouter from "./routes/user.js";
+import shelfRouter from "./routes/userShelf.js";
 import { Server } from "socket.io";
 import http from "http";
 import { messages, addMessage, resetMessages } from "./messages.js";
@@ -44,6 +45,7 @@ app.use(express.static(path.join("../client/")));
 // Routes
 app.use("/api", userRouter);
 app.use("/bookList", bookRouter);
+app.use("/shelf", shelfRouter);
 app.use("/messages", (req, res) => {
   res.status(200).send(messages());
 });
