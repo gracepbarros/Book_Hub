@@ -20,14 +20,18 @@ const GoogleAuthLogin = () => {
         );
         
         const userInfo = userInfoResponse.data;
-        console.log("User info:", userInfo);
 
-        // Send the token to your backend
+        // Send the token to backend
         const response = await axios.post(
           "http://localhost:3000/api/google-login",
           { 
             googleId: userInfo.sub,
-            tokenId: codeResponse.access_token 
+            tokenId: codeResponse.access_token,
+            picture: userInfo.picture,
+            name: userInfo.name,
+          },
+          {
+            withCredentials: true,
           },
           {
             headers: {
@@ -35,10 +39,9 @@ const GoogleAuthLogin = () => {
             },
           }
         );
-        console.log(response.data.message);
 
         // Update the auth context
-        login(userInfo);
+        await login(response.data);
       } catch (error) {
         console.error("Error during Google login:", error);
       }
