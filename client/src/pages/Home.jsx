@@ -10,7 +10,6 @@ function Home() {
       <Nav />
       <Gradient />
       <Header />
-      {/* <BookList /> */}
       <Gradient />
       <Footer />
     </div>
