@@ -9,7 +9,7 @@ const BookCard = ({ book }) => {
   const { user } = useAuth();
 
   const [currentMood, setCurrentMood] = useState("Add to Shelf");
-  const [buttonColor, setButtonColor] = useState("#f8f9fa");
+  const [buttonColor, setButtonColor] = useState("var(--lightgrey)");
   const [isFavorite, setIsFavorite] = useState(false);
   const [favText, setFavText] = useState("Add to ");
 
@@ -43,6 +43,8 @@ const BookCard = ({ book }) => {
 
         } else {
           console.log("No shelf data found or unexpected response format");
+          setCurrentMood("Add to Shelf");
+          setButtonColor("var(--lightgrey)");
         }
     } catch (error) {
       console.error("Error fetching shelf: ", error);

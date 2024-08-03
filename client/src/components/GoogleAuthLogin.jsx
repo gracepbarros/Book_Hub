@@ -7,8 +7,6 @@ const GoogleAuthLogin = () => {
 
   const handleGoogleLogin = useGoogleLogin({
     onSuccess: async (codeResponse) => {
-      console.log("Login Success! Code response: ", codeResponse);
-
       try {
         const userInfoResponse = await axios.get(
           'https://www.googleapis.com/oauth2/v3/userinfo',
@@ -20,8 +18,7 @@ const GoogleAuthLogin = () => {
         );
         
         const userInfo = userInfoResponse.data;
-        console.log("userInfo: ", userInfo);
-
+        
         const response = await axios.post(
           "http://localhost:3000/api/google-login",
           { 
