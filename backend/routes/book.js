@@ -31,7 +31,10 @@ function formatBookData(rawitem){
 let redisClient;
 
 (async () => {
-  redisClient = redis.createClient();
+  redisClient = redis.createClient({
+    url: 'redis://redis:6379',
+  });
+  // redisClient = redis.createClient();
 
   try{
     await redisClient.connect();
@@ -66,6 +69,7 @@ async function isBookListCached(req, res, next){
 
 // Book search - get a list of books
 router.get("/", isBookListCached, async (req, res) => {
+  console.log("testinggg");
     try {
       const query = req.query.q || 'Harry Potter';
 

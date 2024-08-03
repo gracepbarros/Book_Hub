@@ -75,17 +75,6 @@ setInterval(() => {
   resetMessages();
 }, 12 * 60 * 60 * 1000 + 30 * 60 * 1000);
 
-// function disconnectAllSockets() {
-//   io.sockets.sockets.forEach((socket) => {
-//     // console.log(socket.id);
-//     socket.disconnect(true); // `true` will force the disconnection
-//   });
-// }
-// app.post("/disconnect-sockets", (req, res) => {
-//   disconnectAllSockets();
-//   res.send("All sockets disconnected");
-// });
-
 // Error handling
 app.use(function (req, res, next) {
   next(createError(404));

@@ -8,7 +8,7 @@ const GoogleAuthLogout = () => {
 
   const handleLogout = () => {
     googleLogout();
-    console.log("Logout successful!");
+    alert("Logout successful!");
     logout();
   };
 
