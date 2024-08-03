@@ -55,7 +55,6 @@ async function isBookListCached(req, res, next){
     if(cacheData){
       books = JSON.parse(cacheData);
       res.send({totalItems: books.length, items: books})
-      console.log("from redis");
     }
     else{
       next();
@@ -69,18 +68,12 @@ async function isBookListCached(req, res, next){
 
 // Book search - get a list of books
 router.get("/", isBookListCached, async (req, res) => {
-  console.log("testinggg");
     try {
-      const query = req.query.q || 'Harry Potter';
+      const q = req.query.q || 'Harry Potter';
+      const index = req.query.startIndex ;
+      const maxResults = req.query.maxResults ;
 
-      if (!query) {
-        console.error('No query provided. Default search "Harry Potter" was used.');
-      }
-    
-      const limit = req.query.limit || 18;
-      const page = req.query.page || 1;
-      const response = await axios.get(`${API_URL}?q=${query}&limit=${limit}&page=${page}&key=${API_KEY}`);
-      console.log("Response length: ",response.data.items.length)
+      const response = await axios.get(`${API_URL}?q=${q}&startIndex=${index}&maxResults=${maxResults}&key=${API_KEY}`);
       const { items, totalItems } = response.data;
         
       if (totalItems == 0) {

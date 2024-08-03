@@ -34,7 +34,6 @@ const BooksGradient = ({color, category}) => {
     try {
       const response = await axios.get(`http://localhost:3000/shelf/${category}?userID=${user.userID}`);
 
-      // console.log(`response: ${category}`, response.data);
       if (response.status === 200 && response.data) {
         response.data.forEach((book) => {
           setbookIdList((prev) => [...prev, book.googleID]);
@@ -57,7 +56,6 @@ const BooksGradient = ({color, category}) => {
     const fetchPromises = uniqueBookIds.map(id =>
       axios.get(`http://localhost:3000/bookList/${id}`)
         .then(response => {
-          // console.log(`Successfully fetched book ${id}:`, response.data);
           return response.data;
         })
         .catch(error => {
@@ -80,7 +78,6 @@ const BooksGradient = ({color, category}) => {
 
   useEffect(() => {
     if (bookIdList.length > 0) {
-      console.log("Fetching books for IDs:", bookIdList);
       fetchBooks();
     } else {
       console.log("No book IDs to fetch");

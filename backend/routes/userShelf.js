@@ -23,7 +23,6 @@ router.get("/", async (req, res) => {
             },
         });
 
-        console.log("userShelf found: ", userShelf);
         res.status(200).json(userShelf);
     } catch (error) {
         console.error("Error fetching userShelf: ", error);
@@ -64,7 +63,6 @@ router.get("/:category", async (req, res) => {
             return res.status(404).json({ error: "No books found in this category" });
         }
 
-        console.log("userShelf found: ", userShelf);
         res.status(200).json(userShelf);
     }   catch (error) {
         console.error("Error fetching userShelf: ", error);
@@ -75,7 +73,6 @@ router.get("/:category", async (req, res) => {
 router.post("/", async (req, res) => {
     const { googleID, userID, favorite } = req.body;
     let { category } = req.body;
-    console.log(" requested body: ", req.body);
 
     if (!req.body) {
         return res.status(400).json({ error: "Body is required!" });

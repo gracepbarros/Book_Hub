@@ -58,10 +58,7 @@ const io = new Server(server, {
 });
 
 io.on("connection", (socket) => {
-  console.log(`Socket user: ${socket.id}`);
-
   socket.on("send_message", (data) => {
-    console.log(data);
     addMessage(data);
     io.emit("new_message", data);
   });

@@ -39,15 +39,11 @@ const BookList = () => {
   };
 
   useEffect(() => {
-    console.log("Current page: ", page);
     const fetchBooks = async () => {
       try {
         const index = page == 1 ? 0 : (page - 1) * columns * 3;
-
-        const response = await axios.get(
-          `http://localhost:3000/bookList?q=${searchQuery}&startIndex=${index}&maxResults=${columns * 3}`
-        );
-        console.log("Response data.totalitems: ", response.data.totalItems);
+        const query = `http://localhost:3000/bookList?q=${searchQuery}&startIndex=${index}&maxResults=${columns * 3}`;
+        const response = await axios.get(query);
         setBooks(response.data.items);
       } catch (error) {
         console.error("Error fetching books:", error);
