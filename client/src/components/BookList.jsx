@@ -45,7 +45,7 @@ const BookList = () => {
         const index = page == 1 ? 0 : (page - 1) * columns * 3;
 
         const response = await axios.get(
-          `http://localhost:3000/bookList?q=${searchQuery}&startIndex=${index}&maxResults=${columns * 3}`
+          `http://44.202.24.229:3000/bookList?q=${searchQuery}&startIndex=${index}&maxResults=${columns * 3}`
         );
         console.log("Response data.totalitems: ", response.data.totalItems);
         setBooks(response.data.items);

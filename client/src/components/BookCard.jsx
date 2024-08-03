@@ -23,7 +23,7 @@ const BookCard = ({ book }) => {
 
   const fetchShelf = async () => {
     try {
-      const response = await axios.get(`http://localhost:3000/shelf?googleID=${book.googleId}&userID=${user.userID}`);
+      const response = await axios.get(`http://44.202.24.229:3000/shelf?googleID=${book.googleId}&userID=${user.userID}`);
       
       if (response.status === 200 && response.data) {
         const { category, favorite } = response.data;
@@ -85,7 +85,7 @@ const BookCard = ({ book }) => {
     };
 
     try {
-      const response = await axios.post("http://localhost:3000/shelf", body);
+      const response = await axios.post("http://44.202.24.229:3000/shelf", body);
 
       if (response.status !== 200) {
         throw new Error("Failed to update shelf");

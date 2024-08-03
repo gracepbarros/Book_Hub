@@ -24,7 +24,7 @@ app.use(cookieParser());
 
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: "http://44.202.24.229:5173",
     credentials: true,
   })
 );
@@ -52,7 +52,7 @@ app.use("/messages", (req, res) => {
 
 const io = new Server(server, {
   cors: {
-    origin: "http://localhost:5173",
+    origin: "http://44.202.24.229:5173",
     methods: ["GET", "POST"],
   },
 });
@@ -89,5 +89,5 @@ app.use(function (err, req, res, next) {
 
 // Start http server
 server.listen(port, () => {
-  console.log(`Server started at http://localhost:${port}`);
+  console.log(`Server started at http://44.202.24.229:${port}`);
 });

@@ -13,7 +13,7 @@ export const AuthProvider = ({ children }) => {
 
   const checkUserSession = async () => {
     try {
-      const response = await axios.get("http://localhost:3000/api/check-session", { withCredentials: true });
+      const response = await axios.get("http://44.202.24.229:3000/api/check-session", { withCredentials: true });
       if (response.data.user) {
         setUser(response.data.user);
       }
@@ -27,7 +27,7 @@ export const AuthProvider = ({ children }) => {
   const login = async (userData) => {
     setUser(userData);
     try {
-      await axios.post("http://localhost:3000/api/google-login", userData, { withCredentials: true });
+      await axios.post("http://44.202.24.229:3000/api/google-login", userData, { withCredentials: true });
     } catch (error) {
       console.error("Error setting user session:", error);
     }
@@ -36,7 +36,7 @@ export const AuthProvider = ({ children }) => {
   const logout = async () => {
     setUser(null);
     try {
-      await axios.post("http://localhost:3000/api/logout", {}, { withCredentials: true });
+      await axios.post("http://44.202.24.229:3000/api/logout", {}, { withCredentials: true });
     } catch (error) {
       console.error("Error logging out:", error);
     }
