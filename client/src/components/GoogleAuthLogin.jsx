@@ -20,7 +20,7 @@ const GoogleAuthLogin = () => {
         const userInfo = userInfoResponse.data;
         
         const response = await axios.post(
-          "http://44.202.24.229:3000/api/google-login",
+          "http://44.202.24.229.nip.io:3000/api/google-login",
           { 
             googleId: userInfo.sub,
             tokenId: codeResponse.access_token,

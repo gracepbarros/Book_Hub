@@ -32,7 +32,7 @@ const BooksGradient = ({color, category}) => {
 
   const fetchIds = async () => {
     try {
-      const response = await axios.get(`http://44.202.24.229:3000/shelf/${category}?userID=${user.userID}`);
+      const response = await axios.get(`http://44.202.24.229.nip.io:3000/shelf/${category}?userID=${user.userID}`);
 
       // console.log(`response: ${category}`, response.data);
       if (response.status === 200 && response.data) {
@@ -55,7 +55,7 @@ const BooksGradient = ({color, category}) => {
   const fetchBooks = async () => {
     const uniqueBookIds = [...new Set(bookIdList)]; // Remove duplicates from bookIdList
     const fetchPromises = uniqueBookIds.map(id =>
-      axios.get(`http://44.202.24.229:3000/bookList/${id}`)
+      axios.get(`http://44.202.24.229.nip.io:3000/bookList/${id}`)
         .then(response => {
           // console.log(`Successfully fetched book ${id}:`, response.data);
           return response.data;

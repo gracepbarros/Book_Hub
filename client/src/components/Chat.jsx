@@ -13,7 +13,7 @@ const Chat = () => {
 
   useEffect(() => {
     if (user) {
-      const s = io.connect("http://44.202.24.229:3000", { query: user.googleId });
+      const s = io.connect("http://44.202.24.229.nip.io:3000", { query: user.googleId });
       setSocket(s);
       return () => {
         s.disconnect();
@@ -25,7 +25,7 @@ const Chat = () => {
   const [currMessage, setCurrMessage] = useState("");
 
   useEffect(() => {
-    fetch("http://44.202.24.229:3000/messages")
+    fetch("http://44.202.24.229.nip.io:3000/messages")
       .then((response) => response.json())
       .then((data) => setMessages(data))
       .catch((err) => console.error("Not able to load the messages: ", err));

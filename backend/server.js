@@ -52,7 +52,7 @@ app.use("/messages", (req, res) => {
 
 const io = new Server(server, {
   cors: {
-    origin: "http://44.202.24.229:5173",
+    origin: "http://44.202.24.229.nip.io:5173",
     methods: ["GET", "POST"],
   },
 });
