@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useAuth } from "../AuthContext";
 import BookDisplay from "./BookDisplay";
 import axios from "axios";
@@ -11,6 +11,9 @@ const BooksGradient = ({color, category}) => {
   const [bookIdList, setbookIdList] = useState([]);
   const [books, setBooks] = useState([]);
   const [columns, setColumns] = useState(4);
+  const [showLeftArrow, setShowLeftArrow] = useState(false);
+  const [showRightArrow, setShowRightArrow] = useState(true);
+  const scrollContainerRef = useRef(null);
 
   const handleResize = () => {
     const width = window.innerWidth;
@@ -77,33 +80,71 @@ const BooksGradient = ({color, category}) => {
 
   useEffect(() => {
     if (bookIdList.length > 0) {
+      console.log("Fetching books for IDs:", bookIdList);
       fetchBooks();
+    } else {
+      console.log("No book IDs to fetch");
+      setBooks([]);
     }
   }, [bookIdList]);
 
+  const handleScroll = () => {
+    if (scrollContainerRef.current) {
+      const { scrollLeft, scrollWidth, clientWidth } = scrollContainerRef.current;
+      setShowLeftArrow(scrollLeft > 0);
+      setShowRightArrow(scrollLeft + clientWidth < scrollWidth);
+    }
+  };
+
+  const scroll = (direction) => {
+    if (scrollContainerRef.current) {
+      const scrollAmount = direction === 'left' ? -200 : 200;
+      scrollContainerRef.current.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+    }
+  };
+
+  useEffect(() => {
+    const scrollContainer = scrollContainerRef.current;
+    if (scrollContainer) {
+      scrollContainer.addEventListener('scroll', handleScroll);
+      handleScroll(); // Check initial scroll position
+    }
+    return () => {
+      if (scrollContainer) {
+        scrollContainer.removeEventListener('scroll', handleScroll);
+      }
+    };
+  }, []);
 
   return (
     <div className="w-full mx-auto flex flex-col">
-      <div className={`min-h-[16rem] ${backgroundColor} flex items-center w-full `}>
-        <div className="min-h-[16rem] max-w-[6rem] flex flex-col justify-center relative ">
-            <h1 className={`min-h-[4rem] w-[16rem] text-center text-3xl font-extrabold ${textColor} -rotate-90 textstroke-w absolute -left-[5rem]`}> 
-              {category}
-            </h1>
+      <div className={`min-h-[16rem] ${backgroundColor} flex items-center w-full relative`}>
+        <div className="min-h-[16rem] max-w-[6rem] flex flex-col justify-center relative">
+          <h1 className={`min-h-[4rem] w-[16rem] text-center text-3xl font-extrabold ${textColor} -rotate-90 textstroke-w absolute -left-[5rem]`}>
+            {category}
+          </h1>
         </div>
-        <div className="flex-1 flex items-center left-[4rem] relative ">
-          { books.length === 0 ? (
-            <h1 className={`text-2xl font-extrabold textwhite irishgrover justify-center w-[80%]`}> 
-            No books added to the <em className="uppercase"> {category} </em> category.
-            </h1>
-          ) : (
-          <div className={`grid grid-rows-1 grid-cols-${columns} gap-10 mx-5 my-3`}>
+        <div className="flex-1 flex items-center left-[4rem] relative overflow-hidden "> 
+          {showLeftArrow && (
+            <button onClick={() => scroll('left')} className="absolute left-0 z-10 bg-white bg-opacity-50 p-2 rounded-full">
+              <span className="material-symbols-outlined">arrow_back_ios</span>
+            </button>
+          )}
+          <div
+            ref={scrollContainerRef}
+            className="flex overflow-x-auto scrollbar-hide"
+            style={{ scrollBehavior: 'smooth' }}
+          >
             {books.map((book) => (
-              <BookDisplay key={book.googleID} book={book} />
+              <div key={book.googleID} className="flex-shrink-0 mx-2">
+                <BookDisplay book={book} />
+              </div>
             ))}
-            <span className="material-symbols-outlined px-2 absolute -right-24">
-              arrow_forward_ios
-            </span>
           </div>
+          {showRightArrow && (
+            <button onClick={() => scroll('right')} className="absolute right-0 z-10 bg-white bg-opacity-50 p-2 rounded-full">
+              <span className="material-symbols-outlined">arrow_forward_ios</span>
+            </button>
           )}
         </div>
       </div>
