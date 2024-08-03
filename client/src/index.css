@@ -1,16 +1,204 @@
+@import url("https://fonts.googleapis.com/css2?family=Irish+Grover&display=swap");
+
 :root {
-  --beige: rgb(206, 191, 148);
-  --orange: rgb(252, 113, 56);
-  --turquoise: rgb(163, 231, 216);
-  --brown: rgb(107, 92, 73);
+  --beige: #cebf94;
+  --orange: #fc7138;
+  --turquoise: #a3e7d8;
+  --brown: #6b5c49;
+  --wine: #c80b0b;
   --white: #ffffff;
   --lightyellow: #ffb300;
+  --lightgrey: #f8f9fa;
   --font-size: 1.3rem;
   --mono: "Oxygen mono", monospace;
   --sans: Oxygen, sans-serif;
 }
-/* Cores principais
-Bege: rgba(206, 191, 148, 1)
-Laranja: rgba(252, 113, 56, 1)
-Verde/Agua: rgba(163, 231, 216, 1)
-Marrom: rgba(107, 92, 73, 1) */
+
+.irishgrover {
+  font-family: "Irish Grover", system-ui;
+}
+
+.textstroke {
+  -webkit-text-stroke-width: 2px;
+  -webkit-text-stroke-color: var(--beige);
+}
+
+.textstrokeh2 {
+  -webkit-text-stroke-width: 1px;
+  -webkit-text-stroke-color: var(--beige);
+}
+
+.textstroke-w {
+  -webkit-text-stroke-width: 2px;
+  -webkit-text-stroke-color: var(--white);
+}
+
+.bgbeige {
+  background-color: var(--beige);
+}
+
+.bgorange {
+  background-color: var(--orange);
+}
+
+.bgturquoise {
+  background-color: var(--turquoise);
+}
+
+.bgbrown {
+  background-color: var(--brown);
+}
+
+.bgwine {
+  background-color: var(--wine);
+}
+
+.bghome {
+  background-image: url("images/pattern.svg");
+  background-repeat: repeat;
+  background-size: cover;
+  animation: moveBackground 2s linear infinite;
+}
+
+@keyframes moveBackground {
+  0% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: 0 100%;
+  }
+}
+
+.textbeige {
+  color: var(--beige);
+}
+
+.textorange {
+  color: var(--orange);
+}
+
+.textturquoise {
+  color: var(--turquoise);
+}
+
+.textbrown {
+  color: var(--brown);
+}
+
+.textwine {
+  color: var(--wine);
+}
+
+.textwhite {
+  color: var(--white);
+}
+
+.translate-center {
+  transform: translate(-50%, -50%);
+}
+
+/*chat css */
+
+.chat-sendBtn {
+  width: 10%;
+  background-color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-bottom: 15px;
+  cursor: pointer;
+}
+
+.chat-sendBtn:hover {
+  background-color: #d3d3d3;
+}
+
+.chat-sendBtn span {
+  color: var(--orange);
+  transform: rotate(310deg);
+  font-size: 50px;
+}
+
+.chat-local,
+.chat-other {
+  display: flex;
+  border-bottom: 2px solid var(--orange);
+  gap: 5px;
+}
+
+.chat-local img,
+.chat-other img {
+  width: 50px;
+  height: 50px;
+  margin: 5px;
+}
+
+.chat-local {
+  flex-direction: row-reverse;
+  background-color: var(--turquoise);
+}
+
+.chat-local p,
+.chat-other p {
+  padding: 5px;
+  margin: 5px;
+}
+
+.bookcard {
+  width: 516px;
+  height: 700px;
+  display: grid;
+  grid-template-areas:
+    "chunk1 chunk2"
+    "chunk3 chunk3";
+  grid-template-rows: 1fr 1fr;
+  grid-template-columns: 1fr 1fr;
+  padding: 15px;
+}
+
+.chunk1 {
+  grid-area: chunk1;
+}
+.chunk2 {
+  grid-area: chunk2;
+  display: flex;
+  flex-direction: column;
+  align-items: space-between;
+}
+.chunk3 {
+  grid-area: chunk3;
+  gap: 10px;
+}
+
+.chunk2 p {
+  display: flex;
+  justify-content: center;
+}
+.chunk1,
+.chunk2,
+.chunk3 {
+  margin: auto;
+}
+
+.userName{
+  padding: 0px;
+  margin-top: 5px;
+}
+
+@media (min-width: 840px) {
+  .homepresentation {
+    width: 80%;
+  }
+  .chatlayout {
+    width: 80%;
+  }
+}
+
+@media (max-width: 840px) {
+  .profile {
+    flex-direction: column;
+  }
+  .profile > div {
+    width: 100%;
+  }
+}

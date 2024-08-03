@@ -1,28 +1,35 @@
-import "./App.css";
-import Nav from "./components/Nav";
-import Header from "./components/Header";
-import Gradient from "./components/Gradient";
-import Main from "./components/Main";
-import { useEffect } from "react";
+import React from "react";
+import Home from "./pages/Home.jsx";
+import ChatPage from "./pages/ChatPage.jsx";
+import LoginPage from "./pages/LoginPage.jsx";
+import BooksPage from "./pages/BooksPage.jsx";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { AuthProvider } from "./AuthContext";
+import { GoogleOAuthProvider } from '@react-oauth/google';
+import PrivateRoute from "./components/PrivateRoute"; // Import the PrivateRoute component
 
+const clientId = import.meta.env.VITE_GOOGLE_CLIENT_ID;
 
 function App() {
-  useEffect(() => {
-    fetch('http://localhost:3000/api')
-    .then(response => response.json())
-    .then(data => console.log(data))
-    .catch(error => console.error("Failed to load data from the api: ", error));
-  }, []);
-
-  
   return (
-    <div className="container">
-      <Nav />
-      <Gradient />
-      <Header />
-      <Main />
-      <Gradient />
-    </div>
+    <GoogleOAuthProvider clientId={clientId}>
+    <AuthProvider>
+
+      <Router>
+        <Routes>
+          <Route path="/login" element={<LoginPage />} />
+          {/* Public route */}
+          <Route path="/" element={<Home />} />
+          {/* Protected routes */}
+          <Route element={<PrivateRoute />}>
+            <Route path="/chat" element={<ChatPage />} />
+            <Route path="/books" element={<BooksPage />} />
+          </Route>
+        </Routes>
+      </Router>
+
+    </AuthProvider>
+    </GoogleOAuthProvider>
   );
 }
 

@@ -16,7 +16,7 @@ cd backend
 npm i
 nodemon server.js
 ```
-Go to (http://localhost:3000/api)
+Go to (http://localhost:3000/bookList)
 
 - 2 - Frontend
 ```

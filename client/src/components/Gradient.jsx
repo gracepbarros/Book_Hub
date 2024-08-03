@@ -1,10 +1,10 @@
 const Gradient = () => {
   return (
-    <div className="gradient">
-      <div className="unread"></div>
-      <div className="reading"></div>
-      <div className="read"></div>
-      <div className="abandoned"></div>
+    <div className="h-4 flex">
+      <div className="bgbeige w-1/4 h-full"></div>
+      <div className="bgturquoise w-1/4 h-full"></div>
+      <div className="bgorange w-1/4 h-full"></div>
+      <div className="bgbrown w-1/4 h-full"></div>
     </div>
   );
 };
