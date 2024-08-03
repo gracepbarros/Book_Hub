@@ -1,7 +1,7 @@
 import express from "express";
 import axios from "axios";
 import dotenv from "dotenv";
-//import redis from "redis";
+import redis from "redis";
 
 dotenv.config();
 
@@ -28,10 +28,13 @@ function formatBookData(rawitem){
         cover: imageLinks ? imageLinks.thumbnail : undefined, };
 }
 
-/* let redisClient;
+let redisClient;
 
 (async () => {
-  redisClient = redis.createClient();
+  redisClient = redis.createClient({
+    url: 'redis://redis:6379',
+  });
+  // redisClient = redis.createClient();
 
   try{
     await redisClient.connect();
@@ -62,10 +65,11 @@ async function isBookListCached(req, res, next){
     console.error("Not possible to process data in cache: ", err);
     res.status(404);
   }
-} */
+} 
 
 // Book search - get a list of books
-router.get("/",  async (req, res) => {
+router.get("/", isBookListCached, async (req, res) => {
+  console.log("testinggg");
     try {
       const query = req.query.q || 'Harry Potter';
 

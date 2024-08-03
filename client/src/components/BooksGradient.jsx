@@ -34,7 +34,7 @@ const BooksGradient = ({color, category}) => {
     try {
       const response = await axios.get(`http://localhost:3000/shelf/${category}?userID=${user.userID}`);
 
-      console.log(`response: ${category}`, response.data);
+      // console.log(`response: ${category}`, response.data);
       if (response.status === 200 && response.data) {
         response.data.forEach((book) => {
           setbookIdList((prev) => [...prev, book.googleID]);
