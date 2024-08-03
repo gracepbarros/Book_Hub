@@ -33,7 +33,43 @@ router.get("/", async (req, res) => {
 
 router.get("/:category", async (req, res) => {
     const { category } = req.params;
+    const { userID } = req.query;
 
+    const categoryMap = {
+        Unread: 1,
+        Reading: 2,
+        Read: 3,
+        Abandoned: 4,
+      };
+
+    try {
+        let userShelf;
+        if (category === "Favourite"){
+            userShelf = await prisma.userShelf.findMany({
+                where: {
+                    userID,
+                    favorite: true,
+                },
+            })
+        } else{
+            userShelf = await prisma.userShelf.findMany({
+                where: {
+                    userID,
+                    category: categoryMap[category],
+                },
+            })
+        }
+
+        if (!userShelf) {
+            return res.status(404).json({ error: "No books found in this category" });
+        }
+
+        console.log("userShelf found: ", userShelf);
+        res.status(200).json(userShelf);
+    }   catch (error) {
+        console.error("Error fetching userShelf: ", error);
+        res.status(500).json({ error: "Internal server error", message: error.message });
+    }
 });
 
 router.post("/", async (req, res) => {
