@@ -2,7 +2,7 @@
     "name": "book-hub-app",
     "version": "1.0",
     "scripts": {
-        "start": "node server.js",
+        "start": "node backend/server.js",
         "server": "nodemon backend/server.js",
         "client": "cd client && npm run dev",
         "dev": "concurrently \"npm run server\" \"npm run client\"",
