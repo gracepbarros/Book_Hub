@@ -34,7 +34,7 @@ let redisClient;
   redisClient = redis.createClient({
     url: 'redis://redis:6379',
   });
-  // redisClient = redis.createClient();
+  redisClient = redis.createClient();
 
   try{
     await redisClient.connect();
